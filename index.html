@@ -19,7 +19,6 @@
     --gray-500: #888;
     --gray-700: #444;
     --gray-900: #1a1a1a;
-    --white: #fff;
     --radius: 12px;
     --radius-sm: 8px;
     --shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -27,25 +26,20 @@
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   body {
     font-family: 'Sarabun', 'Helvetica Neue', sans-serif;
-    background: var(--gray-50);
-    color: var(--gray-900);
-    min-height: 100vh;
-    max-width: 480px;
-    margin: 0 auto;
+    background: var(--gray-50); color: var(--gray-900);
+    min-height: 100vh; max-width: 480px; margin: 0 auto;
   }
 
   /* HEADER */
   .header {
-    background: var(--green);
-    padding: 14px 16px;
+    background: var(--green); padding: 14px 16px;
     display: flex; align-items: center; gap: 10px;
     position: sticky; top: 0; z-index: 100;
   }
   .header-logo {
-    width: 28px; height: 28px; background: white;
-    border-radius: 7px; display: flex; align-items: center;
-    justify-content: center; font-weight: 800; font-size: 11px;
-    color: var(--green); flex-shrink: 0; letter-spacing: -0.5px;
+    width: 28px; height: 28px; background: white; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 11px; color: var(--green); flex-shrink: 0;
   }
   .header h1 { color: white; font-size: 16px; font-weight: 600; flex: 1; }
 
@@ -53,31 +47,27 @@
   .screen { display: none; padding: 16px; padding-bottom: 32px; }
   .screen.active { display: block; }
 
-  /* LOADING */
-  #loadingScreen {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    min-height: 60vh; gap: 16px;
-  }
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--gray-200);
-    border-top-color: var(--green);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { color: var(--gray-500); font-size: 14px; }
-
-  /* NOT FOUND */
-  #notFoundScreen {
+  /* CENTER SCREEN */
+  .center-screen {
     display: none; flex-direction: column;
     align-items: center; justify-content: center;
-    min-height: 60vh; gap: 12px; text-align: center; padding: 32px;
+    min-height: 70vh; gap: 12px; text-align: center; padding: 32px;
   }
-  .nf-icon { font-size: 56px; margin-bottom: 8px; }
-  .nf-title { font-size: 18px; font-weight: 600; color: var(--gray-900); }
-  .nf-desc { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+  .center-screen.active { display: flex; }
+
+  /* SPINNER */
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--gray-200); border-top-color: var(--green);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* CARD */
+  .card {
+    background: white; border-radius: var(--radius);
+    padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px;
+  }
 
   /* USER BAR */
   .user-bar {
@@ -95,19 +85,17 @@
   .user-info .name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
   .user-info .role { font-size: 12px; color: var(--gray-500); }
   .line-badge {
-    margin-left: auto; background: var(--green-light);
-    color: var(--green-dark); font-size: 11px; font-weight: 600;
-    padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+    margin-left: auto; background: var(--green-light); color: var(--green-dark);
+    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap;
   }
 
   /* SECTION LABEL */
   .section-label {
     font-size: 11px; font-weight: 700; color: var(--gray-500);
     text-transform: uppercase; letter-spacing: 0.07em;
-    margin-bottom: 8px; margin-top: 4px;
-    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
   }
-  .required { color: var(--red); font-size: 14px; line-height: 1; }
+  .required { color: var(--red); font-size: 14px; }
 
   /* PROGRESS */
   .progress-wrap { display: flex; gap: 5px; margin-bottom: 20px; }
@@ -119,17 +107,14 @@
   .store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
   .store-btn {
     background: white; border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm); padding: 12px 10px;
-    text-align: center; cursor: pointer; transition: all 0.15s;
-    font-size: 12px; color: var(--gray-700); font-weight: 500;
+    border-radius: var(--radius-sm); padding: 12px 10px; text-align: center;
+    cursor: pointer; transition: all 0.15s; font-size: 12px;
+    color: var(--gray-700); font-weight: 500;
     display: flex; flex-direction: column; align-items: center; gap: 4px;
   }
   .store-btn .store-id { font-size: 10px; color: var(--gray-500); font-family: monospace; }
   .store-btn:active { transform: scale(0.97); }
-  .store-btn.selected {
-    border-color: var(--green); border-width: 2px;
-    background: var(--green-light); color: var(--green-dark);
-  }
+  .store-btn.selected { border-color: var(--green); border-width: 2px; background: var(--green-light); color: var(--green-dark); }
   .store-btn.selected .store-id { color: var(--green-dark); opacity: 0.7; }
   .store-count { font-size: 12px; color: var(--gray-500); margin-bottom: 10px; }
 
@@ -142,10 +127,7 @@
     outline: none; font-family: inherit; transition: border-color 0.15s;
   }
   .search-wrap input:focus { border-color: var(--green); }
-  .search-icon {
-    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    color: var(--gray-500); font-size: 17px; pointer-events: none;
-  }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-500); font-size: 17px; pointer-events: none; }
   .search-clear {
     position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
     background: var(--gray-300); border: none; border-radius: 50%;
@@ -180,13 +162,9 @@
     border-radius: var(--radius-sm); padding: 12px 14px;
     display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
   }
-  .selected-product .sp-icon { font-size: 22px; flex-shrink: 0; }
   .selected-product .sp-name { font-size: 13px; font-weight: 600; color: var(--green-dark); line-height: 1.3; }
   .selected-product .sp-barcode { font-size: 11px; color: var(--green-dark); opacity: 0.7; font-family: monospace; margin-top: 2px; }
-  .selected-product .sp-clear {
-    margin-left: auto; background: none; border: none;
-    color: var(--green-dark); font-size: 18px; cursor: pointer; flex-shrink: 0; padding: 4px;
-  }
+  .selected-product .sp-clear { margin-left: auto; background: none; border: none; color: var(--green-dark); font-size: 18px; cursor: pointer; flex-shrink: 0; }
 
   /* REASON LIST */
   .reason-list { display: grid; gap: 8px; margin-bottom: 24px; }
@@ -196,7 +174,6 @@
     display: flex; align-items: center; gap: 12px; cursor: pointer;
     transition: all 0.15s; text-align: left;
   }
-  .reason-btn:active { transform: scale(0.98); }
   .reason-btn.selected { border-color: var(--red); border-width: 2px; background: var(--red-light); }
   .reason-btn .r-icon { font-size: 20px; flex-shrink: 0; }
   .reason-btn .r-title { font-size: 13px; font-weight: 600; color: var(--gray-900); }
@@ -205,51 +182,81 @@
   .reason-btn .r-check { margin-left: auto; font-size: 18px; color: var(--red); opacity: 0; transition: opacity 0.15s; flex-shrink: 0; }
   .reason-btn.selected .r-check { opacity: 1; }
 
-  /* SUBMIT */
-  .submit-btn {
-    width: 100%; padding: 15px;
-    background: var(--green); color: white; border: none;
-    border-radius: var(--radius); font-size: 15px; font-weight: 700;
-    cursor: pointer; transition: all 0.15s;
+  /* BUTTONS */
+  .btn-primary {
+    width: 100%; padding: 15px; background: var(--green); color: white; border: none;
+    border-radius: var(--radius); font-size: 15px; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    font-family: inherit;
+    font-family: inherit; transition: all 0.15s;
   }
-  .submit-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  .submit-btn:not(:disabled):active { transform: scale(0.98); background: var(--green-dark); }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-primary:not(:disabled):active { transform: scale(0.98); background: var(--green-dark); }
+  .btn-secondary {
+    width: 100%; padding: 13px; background: white; color: var(--gray-700);
+    border: 1.5px solid var(--gray-300); border-radius: var(--radius);
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px;
+  }
+
+  /* REGISTER SCREEN */
+  .reg-avatar-wrap { text-align: center; margin-bottom: 20px; }
+  .reg-avatar {
+    width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+    border: 3px solid var(--green); margin-bottom: 8px;
+  }
+  .reg-avatar-fallback {
+    width: 72px; height: 72px; border-radius: 50%; background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: var(--green-dark);
+    border: 3px solid var(--green); margin: 0 auto 8px;
+  }
+  .reg-name { font-size: 16px; font-weight: 700; color: var(--gray-900); }
+  .reg-sub { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+  /* SELECT DROPDOWN */
+  .select-wrap { position: relative; margin-bottom: 8px; }
+  .select-wrap select {
+    width: 100%; padding: 12px 40px 12px 14px;
+    border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+    font-size: 14px; background: white; color: var(--gray-900);
+    outline: none; font-family: inherit; appearance: none; cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .select-wrap select:focus { border-color: var(--green); }
+  .select-wrap::after {
+    content: '▼'; position: absolute; right: 14px; top: 50%;
+    transform: translateY(-50%); color: var(--gray-500);
+    font-size: 10px; pointer-events: none;
+  }
+  .select-wrap select option:first-child { color: var(--gray-500); }
+
+  /* INFO BOX */
+  .info-box {
+    background: #E6F1FB; border-radius: var(--radius-sm);
+    padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .info-box .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .info-box p { font-size: 12px; color: #185FA5; line-height: 1.6; }
 
   /* SUCCESS */
   #successScreen {
-    display: none; flex-direction: column;
-    align-items: center; text-align: center; padding: 40px 24px;
-    min-height: 60vh; justify-content: center;
+    display: none; flex-direction: column; align-items: center;
+    text-align: center; padding: 40px 24px; min-height: 60vh; justify-content: center;
   }
   .success-anim { font-size: 72px; margin-bottom: 16px; animation: pop 0.4s ease; }
   @keyframes pop { 0%{transform:scale(0.5);opacity:0} 80%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
   .success-title { font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
   .success-sub { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 28px; }
-  .success-detail {
-    width: 100%; background: var(--gray-50); border-radius: var(--radius);
-    padding: 16px; text-align: left; margin-bottom: 24px;
-  }
+  .success-detail { width: 100%; background: var(--gray-50); border-radius: var(--radius); padding: 16px; text-align: left; margin-bottom: 24px; }
   .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--gray-100); }
   .detail-row:last-child { border-bottom: none; }
   .detail-key { font-size: 12px; color: var(--gray-500); }
   .detail-val { font-size: 12px; font-weight: 600; color: var(--gray-900); text-align: right; max-width: 60%; }
-  .btn-secondary {
-    width: 100%; padding: 13px; background: white; color: var(--gray-700);
-    border: 1.5px solid var(--gray-300); border-radius: var(--radius);
-    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
-  }
-  .btn-secondary:active { background: var(--gray-100); }
 
   /* SUMMARY */
   .date-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .date-nav .date-label { font-size: 15px; font-weight: 700; color: var(--gray-900); }
-  .date-nav button {
-    background: white; border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm); padding: 6px 14px;
-    font-size: 16px; cursor: pointer; color: var(--gray-700);
-  }
+  .date-nav button { background: white; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); padding: 6px 14px; font-size: 16px; cursor: pointer; }
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
   .stat-card { background: white; border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
   .stat-card .s-label { font-size: 11px; color: var(--gray-500); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -270,9 +277,8 @@
   /* BOTTOM NAV */
   .bottom-nav {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 480px;
-    background: white; border-top: 1px solid var(--gray-200);
-    display: flex; z-index: 100;
+    width: 100%; max-width: 480px; background: white;
+    border-top: 1px solid var(--gray-200); display: flex; z-index: 100;
   }
   .nav-btn {
     flex: 1; padding: 10px 0; border: none; background: none; cursor: pointer;
@@ -292,21 +298,47 @@
 </div>
 
 <!-- LOADING -->
-<div id="loadingScreen" class="screen active">
+<div id="loadingScreen" class="center-screen active">
   <div class="spinner"></div>
-  <p class="loading-text">กำลังโหลด...</p>
+  <p style="color:var(--gray-500);font-size:14px">กำลังโหลด...</p>
 </div>
 
-<!-- NOT FOUND -->
-<div id="notFoundScreen">
-  <div class="nf-icon">🔒</div>
-  <p class="nf-title">ไม่พบข้อมูลผู้ใช้</p>
-  <p class="nf-desc">LINE ID ของคุณยังไม่ได้ลงทะเบียน<br>กรุณาติดต่อ Admin เพื่อขอสิทธิ์เข้าใช้งาน</p>
+<!-- REGISTER SCREEN -->
+<div id="registerScreen" class="screen">
+  <div style="text-align:center;padding:12px 0 20px">
+    <div style="font-size:48px;margin-bottom:8px">👋</div>
+    <p style="font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:4px">ยินดีต้อนรับ!</p>
+    <p style="font-size:13px;color:var(--gray-500)">กรุณาลงทะเบียนก่อนใช้งาน</p>
+  </div>
+
+  <div class="card">
+    <div class="reg-avatar-wrap">
+      <div class="reg-avatar-fallback" id="regAvatarFallback">?</div>
+      <p class="reg-name" id="regName">-</p>
+      <p class="reg-sub">บัญชี LINE ของคุณ</p>
+    </div>
+
+    <div class="section-label">👤 ชื่อ Supervisor <span class="required">*</span></div>
+    <div class="select-wrap" style="margin-bottom:16px">
+      <select id="supSelect" onchange="checkRegister()">
+        <option value="">-- เลือกชื่อของคุณ --</option>
+      </select>
+    </div>
+
+    <div class="info-box">
+      <span class="info-icon">ℹ️</span>
+      <p>เลือกชื่อของคุณจากรายการ ระบบจะผูก LINE กับร้านค้าในความรับผิดชอบของคุณโดยอัตโนมัติ</p>
+    </div>
+
+    <button class="btn-primary" id="registerBtn" disabled onclick="doRegister()">
+      ✅ ลงทะเบียนเข้าใช้งาน
+    </button>
+  </div>
 </div>
 
 <!-- FORM SCREEN -->
 <div id="formScreen" class="screen content-area">
-  <div class="user-bar" id="userBar">
+  <div class="user-bar">
     <div class="avatar-fallback" id="avatarFallback">?</div>
     <div class="user-info">
       <p class="name" id="userName">-</p>
@@ -360,7 +392,7 @@
     </button>
   </div>
 
-  <button class="submit-btn" id="submitBtn" disabled onclick="submitReport()">
+  <button class="btn-primary" id="submitBtn" disabled onclick="submitReport()">
     💾 บันทึกรายการ
   </button>
 </div>
@@ -371,7 +403,7 @@
   <p class="success-title">บันทึกสำเร็จ!</p>
   <p class="success-sub">ระบบรับข้อมูลสินค้าขาดแล้ว<br>ข้อมูลถูกบันทึกลง Google Sheets</p>
   <div class="success-detail" id="successDetail"></div>
-  <button class="submit-btn" style="margin-bottom:10px" onclick="resetForm()">➕ แจ้งสินค้าขาดเพิ่ม</button>
+  <button class="btn-primary" onclick="resetForm()">➕ แจ้งสินค้าขาดเพิ่ม</button>
   <button class="btn-secondary" onclick="showSummary()">📊 ดูสรุปรายวัน</button>
 </div>
 
@@ -414,7 +446,8 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbxpWjBVqFzvplFa2f3CH09G
 
 // ── STATE ──────────────────────────────────────────────────
 let state = {
-  lineUserId: null, supName: null, stores: [],
+  lineUserId: null, displayName: null, pictureUrl: null,
+  supName: null, stores: [],
   selectedStore: null, selectedProduct: null, selectedReason: null,
   reports: [], dateOffset: 0,
 };
@@ -423,95 +456,133 @@ let state = {
 async function init() {
   try {
     await liff.init({ liffId: LIFF_ID });
-
-    if (!liff.isLoggedIn()) {
-      liff.login();
-      return;
-    }
+    if (!liff.isLoggedIn()) { liff.login(); return; }
 
     const profile = await liff.getProfile();
-    state.lineUserId = profile.userId;
+    state.lineUserId  = profile.userId;
+    state.displayName = profile.displayName;
+    state.pictureUrl  = profile.pictureUrl;
 
-    // ── แสดง LINE User ID ชั่วคราว เพื่อให้ Admin นำไปลงทะเบียน ──
-    // ลบ block นี้ออกเมื่อระบบพร้อมใช้งานจริงแล้ว
-    document.getElementById('loadingScreen').innerHTML = `
-      <div style="padding:32px;text-align:center;width:100%">
-        <div style="font-size:48px;margin-bottom:16px">👤</div>
-        <p style="font-size:13px;color:#888;margin-bottom:8px">LINE User ID ของคุณ</p>
-        <div style="background:#f0f0f0;padding:14px;border-radius:8px;margin-bottom:16px;word-break:break-all">
-          <p style="font-size:14px;font-weight:700;font-family:monospace;color:#1a1a1a">${profile.userId}</p>
-        </div>
-        <p style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px">${profile.displayName}</p>
-        <p style="font-size:12px;color:#888;margin-bottom:24px">📋 Copy ID ด้านบนส่งให้ Admin เพื่อลงทะเบียน</p>
-        <button onclick="continueLoad()" style="
-          background:#06C755;color:white;border:none;
-          border-radius:10px;padding:12px 24px;
-          font-size:14px;font-weight:700;cursor:pointer;width:100%">
-          ลองเข้าระบบต่อ →
-        </button>
-      </div>`;
-    // ── จบ block ชั่วคราว ──
-
-  } catch (err) {
-    document.getElementById('loadingScreen').innerHTML = `
-      <div style="text-align:center;padding:32px;color:#888">
-        <div style="font-size:48px;margin-bottom:12px">⚠️</div>
-        <p style="font-size:15px;font-weight:600;margin-bottom:8px;color:#1a1a1a">เกิดข้อผิดพลาด</p>
-        <p style="font-size:13px">${err.message}</p>
-      </div>`;
-  }
-}
-
-// ── ต่อจากหน้า User ID → โหลดข้อมูลจริง ──────────────────
-async function continueLoad() {
-  document.getElementById('loadingScreen').innerHTML = `
-    <div class="spinner"></div>
-    <p class="loading-text">กำลังโหลดข้อมูล...</p>`;
-
-  try {
-    const profile = await liff.getProfile();
-
-    // แสดงชื่อและรูป
-    document.getElementById('userName').textContent = profile.displayName;
-    if (profile.pictureUrl) {
-      const img = document.createElement('img');
-      img.src = profile.pictureUrl;
-      img.className = 'avatar';
-      document.getElementById('avatarFallback').replaceWith(img);
-    } else {
-      document.getElementById('avatarFallback').textContent =
-        profile.displayName.charAt(0);
-    }
-
-    // ดึงข้อมูล user + ร้าน
+    // เช็คว่า user ลงทะเบียนแล้วหรือยัง
     const res  = await fetch(`${GAS_URL}?action=getUser&line_user_id=${profile.userId}`);
     const data = await res.json();
 
-    if (!data.found) {
-      showNotFound();
-      return;
+    if (data.found) {
+      // ลงทะเบียนแล้ว → เข้าฟอร์มเลย
+      loadForm(data);
+    } else {
+      // ยังไม่ลงทะเบียน → หน้าลงทะเบียน
+      loadRegister(profile);
     }
 
-    state.supName = data.sup_name;
-    state.stores  = data.stores;
-
-    document.getElementById('userRole').textContent =
-      `${data.sup_name} · ${data.stores.length} สาขา`;
-    document.getElementById('storeCount').textContent =
-      `พบ ${data.stores.length} สาขาในความรับผิดชอบ`;
-
-    renderStores(data.stores);
-    showScreen('formScreen');
-    document.getElementById('bottomNav').style.display = 'flex';
-
   } catch (err) {
-    document.getElementById('loadingScreen').innerHTML = `
-      <div style="text-align:center;padding:32px;color:#888">
-        <div style="font-size:48px;margin-bottom:12px">⚠️</div>
-        <p style="font-size:15px;font-weight:600;margin-bottom:8px;color:#1a1a1a">โหลดข้อมูลไม่สำเร็จ</p>
-        <p style="font-size:13px">${err.message}</p>
-      </div>`;
+    showError(err.message);
   }
+}
+
+// ── LOAD REGISTER SCREEN ───────────────────────────────────
+async function loadRegister(profile) {
+  // แสดงรูปและชื่อ
+  document.getElementById('regName').textContent = profile.displayName;
+  if (profile.pictureUrl) {
+    const img = document.createElement('img');
+    img.src = profile.pictureUrl;
+    img.className = 'reg-avatar';
+    document.getElementById('regAvatarFallback').replaceWith(img);
+  } else {
+    document.getElementById('regAvatarFallback').textContent =
+      profile.displayName.charAt(0);
+  }
+
+  // ดึงรายชื่อ Sup ทั้งหมดจาก store_master
+  try {
+    const res  = await fetch(`${GAS_URL}?action=getSupNames`);
+    const data = await res.json();
+    const sel  = document.getElementById('supSelect');
+    data.names.forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name; opt.textContent = name;
+      sel.appendChild(opt);
+    });
+  } catch(e) {
+    showError('โหลดรายชื่อไม่สำเร็จ กรุณาลองใหม่');
+    return;
+  }
+
+  showScreen('registerScreen');
+  document.getElementById('headerTitle').textContent = 'ลงทะเบียน';
+}
+
+// ── CHECK REGISTER BUTTON ──────────────────────────────────
+function checkRegister() {
+  const val = document.getElementById('supSelect').value;
+  document.getElementById('registerBtn').disabled = !val;
+}
+
+// ── DO REGISTER ────────────────────────────────────────────
+async function doRegister() {
+  const btn    = document.getElementById('registerBtn');
+  const supName = document.getElementById('supSelect').value;
+  btn.disabled = true;
+  btn.textContent = '⏳ กำลังลงทะเบียน...';
+
+  try {
+    const res  = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action:       'registerUser',
+        line_user_id: state.lineUserId,
+        sup_name:     supName,
+        tel:          '',
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // ลงทะเบียนสำเร็จ → โหลด user ใหม่แล้วเข้าฟอร์ม
+      const res2  = await fetch(`${GAS_URL}?action=getUser&line_user_id=${state.lineUserId}`);
+      const data2 = await res2.json();
+      if (data2.found) {
+        loadForm(data2);
+      }
+    } else {
+      // มี user แล้ว (กรณีซ้ำ) → ลองโหลดใหม่
+      const res2  = await fetch(`${GAS_URL}?action=getUser&line_user_id=${state.lineUserId}`);
+      const data2 = await res2.json();
+      if (data2.found) { loadForm(data2); }
+      else { showError(data.message || 'เกิดข้อผิดพลาด'); }
+    }
+  } catch(e) {
+    showError('ลงทะเบียนไม่สำเร็จ กรุณาลองใหม่');
+    btn.disabled = false;
+    btn.textContent = '✅ ลงทะเบียนเข้าใช้งาน';
+  }
+}
+
+// ── LOAD FORM ──────────────────────────────────────────────
+function loadForm(data) {
+  state.supName = data.sup_name;
+  state.stores  = data.stores;
+
+  // แสดงรูปและชื่อ
+  document.getElementById('userName').textContent = state.displayName;
+  if (state.pictureUrl) {
+    const img = document.createElement('img');
+    img.src = state.pictureUrl; img.className = 'avatar';
+    document.getElementById('avatarFallback').replaceWith(img);
+  } else {
+    document.getElementById('avatarFallback').textContent =
+      state.displayName?.charAt(0) || '?';
+  }
+  document.getElementById('userRole').textContent =
+    `${data.sup_name} · ${data.stores.length} สาขา`;
+  document.getElementById('storeCount').textContent =
+    `พบ ${data.stores.length} สาขาในความรับผิดชอบ`;
+
+  renderStores(data.stores);
+  showScreen('formScreen');
+  document.getElementById('bottomNav').style.display = 'flex';
+  document.getElementById('headerTitle').textContent = 'แจ้งสินค้าขาด';
 }
 
 // ── RENDER STORES ──────────────────────────────────────────
@@ -522,8 +593,7 @@ function renderStores(stores) {
       <span style="font-size:18px">🏪</span>
       <span>${escHtml(s.store_name)}</span>
       <span class="store-id">${s.store_id}</span>
-    </button>
-  `).join('');
+    </button>`).join('');
 }
 
 // ── SELECT STORE ───────────────────────────────────────────
@@ -580,7 +650,7 @@ function pickProduct(p) {
   wrap.style.display = 'block';
   wrap.innerHTML = `
     <div class="selected-product">
-      <span class="sp-icon">📦</span>
+      <span style="font-size:22px;flex-shrink:0">📦</span>
       <div style="flex:1">
         <p class="sp-name">${escHtml(p.product_th)}</p>
         <p class="sp-barcode">${p.barcode}</p>
@@ -610,13 +680,13 @@ function selectReason(btn, reason) {
   updateProgress(); checkSubmit();
 }
 
-// ── PROGRESS & SUBMIT CHECK ────────────────────────────────
 function updateProgress() {
   document.getElementById('p2').className = 'progress-dot ' +
     (state.selectedStore ? 'done' : state.selectedProduct ? 'active' : '');
   document.getElementById('p3').className = 'progress-dot ' +
     (state.selectedReason ? 'done' : state.selectedProduct ? 'active' : '');
 }
+
 function checkSubmit() {
   document.getElementById('submitBtn').disabled =
     !(state.selectedStore && state.selectedProduct && state.selectedReason);
@@ -625,11 +695,10 @@ function checkSubmit() {
 // ── SUBMIT ─────────────────────────────────────────────────
 async function submitReport() {
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ กำลังบันทึก...';
+  btn.disabled = true; btn.textContent = '⏳ กำลังบันทึก...';
   try {
     const payload = {
-      action:       'submitReport',
+      action: 'submitReport',
       line_user_id: state.lineUserId,
       sup_name:     state.supName,
       store_id:     state.selectedStore.store_id,
@@ -643,18 +712,14 @@ async function submitReport() {
     if (data.success) {
       state.reports.unshift({
         ...payload,
-        timestamp: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }),
+        timestamp: new Date().toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit' }),
       });
       showSuccess(payload);
     } else {
-      alert('เกิดข้อผิดพลาด: ' + (data.error || 'unknown'));
-      btn.disabled = false;
-      btn.innerHTML = '💾 บันทึกรายการ';
+      alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
     }
   } catch(e) {
-    alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
-    btn.disabled = false;
-    btn.innerHTML = '💾 บันทึกรายการ';
+    alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
   }
 }
 
@@ -662,7 +727,7 @@ async function submitReport() {
 function showSuccess(data) {
   document.getElementById('successDetail').innerHTML = [
     ['สาขา', data.store_name], ['สินค้า', data.product_th],
-    ['Barcode', data.barcode], ['เหตุผล', data.reason],
+    ['Barcode', data.barcode],  ['เหตุผล', data.reason],
   ].map(([k,v]) => `
     <div class="detail-row">
       <span class="detail-key">${k}</span>
@@ -670,8 +735,7 @@ function showSuccess(data) {
     </div>`).join('');
   document.getElementById('formScreen').style.display = 'none';
   const s = document.getElementById('successScreen');
-  s.style.display = 'flex';
-  s.style.flexDirection = 'column';
+  s.style.display = 'flex'; s.style.flexDirection = 'column';
   setNavActive('navForm');
 }
 
@@ -695,7 +759,6 @@ const reasonTagClass = {
   'สินค้าไม่ส่ง':'tag-supplier','ส่งไม่ครบ':'tag-delivery',
   'สต็อกผิดพลาด':'tag-system','สินค้าขายดีเกิน':'tag-stock',
 };
-
 function showSummary() {
   document.getElementById('successScreen').style.display = 'none';
   showScreen('summaryScreen');
@@ -731,19 +794,26 @@ function renderSummary() {
       </div>`).join('');
 }
 function changeDate(d) {
-  state.dateOffset = Math.min(0, state.dateOffset + d);
-  renderSummary();
+  state.dateOffset = Math.min(0, state.dateOffset + d); renderSummary();
 }
 
 // ── HELPERS ────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id)?.classList.add('active');
+  document.querySelectorAll('.center-screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+  document.getElementById('successScreen').style.display = 'none';
 }
-function showNotFound() {
-  document.getElementById('loadingScreen').style.display = 'none';
-  const nf = document.getElementById('notFoundScreen');
-  nf.style.display = 'flex'; nf.style.flexDirection = 'column';
+function showError(msg) {
+  document.getElementById('loadingScreen').innerHTML = `
+    <div style="text-align:center;padding:32px">
+      <div style="font-size:48px;margin-bottom:12px">⚠️</div>
+      <p style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a1a">เกิดข้อผิดพลาด</p>
+      <p style="font-size:13px;color:#888">${msg}</p>
+      <button onclick="location.reload()" style="margin-top:20px;padding:10px 24px;background:#06C755;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer">ลองใหม่</button>
+    </div>`;
+  document.getElementById('loadingScreen').classList.add('active');
 }
 function setNavActive(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
