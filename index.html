@@ -30,7 +30,6 @@
     min-height: 100vh; max-width: 480px; margin: 0 auto;
   }
 
-  /* HEADER */
   .header {
     background: var(--green); padding: 14px 16px;
     display: flex; align-items: center; gap: 10px;
@@ -43,11 +42,8 @@
   }
   .header h1 { color: white; font-size: 16px; font-weight: 600; flex: 1; }
 
-  /* SCREENS */
   .screen { display: none; padding: 16px; padding-bottom: 32px; }
   .screen.active { display: block; }
-
-  /* CENTER SCREEN */
   .center-screen {
     display: none; flex-direction: column;
     align-items: center; justify-content: center;
@@ -55,7 +51,6 @@
   }
   .center-screen.active { display: flex; }
 
-  /* SPINNER */
   .spinner {
     width: 40px; height: 40px;
     border: 3px solid var(--gray-200); border-top-color: var(--green);
@@ -63,13 +58,8 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* CARD */
-  .card {
-    background: white; border-radius: var(--radius);
-    padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px;
-  }
+  .card { background: white; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
-  /* USER BAR */
   .user-bar {
     background: white; border-radius: var(--radius);
     padding: 12px 14px; display: flex; align-items: center; gap: 12px;
@@ -82,14 +72,13 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 14px; font-weight: 600; color: var(--green-dark);
   }
-  .user-info .name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+  .user-info .name { font-size: 14px; font-weight: 600; }
   .user-info .role { font-size: 12px; color: var(--gray-500); }
   .line-badge {
     margin-left: auto; background: var(--green-light); color: var(--green-dark);
     font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap;
   }
 
-  /* SECTION LABEL */
   .section-label {
     font-size: 11px; font-weight: 700; color: var(--gray-500);
     text-transform: uppercase; letter-spacing: 0.07em;
@@ -97,11 +86,28 @@
   }
   .required { color: var(--red); font-size: 14px; }
 
-  /* PROGRESS */
   .progress-wrap { display: flex; gap: 5px; margin-bottom: 20px; }
   .progress-dot { height: 4px; flex: 1; border-radius: 2px; background: var(--gray-200); transition: background 0.3s; }
   .progress-dot.done { background: var(--green); }
   .progress-dot.active { background: var(--green); opacity: 0.45; }
+
+  /* CUSTOMER TABS */
+  .customer-tabs {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+    margin-bottom: 16px; scrollbar-width: none;
+  }
+  .customer-tabs::-webkit-scrollbar { display: none; }
+  .cust-tab {
+    flex-shrink: 0; padding: 7px 14px;
+    background: white; border: 1.5px solid var(--gray-200);
+    border-radius: 20px; font-size: 13px; font-weight: 500;
+    color: var(--gray-700); cursor: pointer; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .cust-tab.selected {
+    background: var(--green); border-color: var(--green);
+    color: white; font-weight: 700;
+  }
 
   /* STORE GRID */
   .store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
@@ -118,7 +124,6 @@
   .store-btn.selected .store-id { color: var(--green-dark); opacity: 0.7; }
   .store-count { font-size: 12px; color: var(--gray-500); margin-bottom: 10px; }
 
-  /* SEARCH */
   .search-wrap { position: relative; margin-bottom: 8px; }
   .search-wrap input {
     width: 100%; padding: 11px 14px 11px 40px;
@@ -135,7 +140,6 @@
     align-items: center; justify-content: center; font-size: 11px; color: white;
   }
 
-  /* PRODUCT RESULTS */
   .product-results {
     background: white; border-radius: var(--radius-sm);
     border: 1px solid var(--gray-200); overflow: hidden;
@@ -156,7 +160,6 @@
   }
   .no-result { padding: 16px; text-align: center; font-size: 13px; color: var(--gray-500); }
 
-  /* SELECTED PRODUCT */
   .selected-product {
     background: var(--green-light); border: 2px solid var(--green);
     border-radius: var(--radius-sm); padding: 12px 14px;
@@ -166,7 +169,6 @@
   .selected-product .sp-barcode { font-size: 11px; color: var(--green-dark); opacity: 0.7; font-family: monospace; margin-top: 2px; }
   .selected-product .sp-clear { margin-left: auto; background: none; border: none; color: var(--green-dark); font-size: 18px; cursor: pointer; flex-shrink: 0; }
 
-  /* REASON LIST */
   .reason-list { display: grid; gap: 8px; margin-bottom: 24px; }
   .reason-btn {
     background: white; border: 1.5px solid var(--gray-200);
@@ -182,7 +184,6 @@
   .reason-btn .r-check { margin-left: auto; font-size: 18px; color: var(--red); opacity: 0; transition: opacity 0.15s; flex-shrink: 0; }
   .reason-btn.selected .r-check { opacity: 1; }
 
-  /* BUTTONS */
   .btn-primary {
     width: 100%; padding: 15px; background: var(--green); color: white; border: none;
     border-radius: var(--radius); font-size: 15px; font-weight: 700; cursor: pointer;
@@ -196,44 +197,40 @@
     border: 1.5px solid var(--gray-300); border-radius: var(--radius);
     font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px;
   }
-
-  /* REGISTER SCREEN */
-  .reg-avatar-wrap { text-align: center; margin-bottom: 20px; }
-  .reg-avatar {
-    width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
-    border: 3px solid var(--green); margin-bottom: 8px;
+  .btn-danger {
+    width: 100%; padding: 13px; background: white; color: var(--red);
+    border: 1.5px solid var(--red); border-radius: var(--radius);
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px;
   }
+
+  /* REGISTER */
+  .reg-avatar-wrap { text-align: center; margin-bottom: 20px; }
+  .reg-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--green); margin-bottom: 8px; }
   .reg-avatar-fallback {
     width: 72px; height: 72px; border-radius: 50%; background: var(--green-light);
     display: flex; align-items: center; justify-content: center;
     font-size: 28px; font-weight: 700; color: var(--green-dark);
     border: 3px solid var(--green); margin: 0 auto 8px;
   }
-  .reg-name { font-size: 16px; font-weight: 700; color: var(--gray-900); }
+  .reg-name { font-size: 16px; font-weight: 700; }
   .reg-sub { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
 
-  /* SELECT DROPDOWN */
   .select-wrap { position: relative; margin-bottom: 8px; }
   .select-wrap select {
     width: 100%; padding: 12px 40px 12px 14px;
     border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
     font-size: 14px; background: white; color: var(--gray-900);
     outline: none; font-family: inherit; appearance: none; cursor: pointer;
-    transition: border-color 0.15s;
   }
   .select-wrap select:focus { border-color: var(--green); }
   .select-wrap::after {
     content: '▼'; position: absolute; right: 14px; top: 50%;
-    transform: translateY(-50%); color: var(--gray-500);
-    font-size: 10px; pointer-events: none;
+    transform: translateY(-50%); color: var(--gray-500); font-size: 10px; pointer-events: none;
   }
-  .select-wrap select option:first-child { color: var(--gray-500); }
 
-  /* INFO BOX */
   .info-box {
     background: #E6F1FB; border-radius: var(--radius-sm);
-    padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start;
-    margin-bottom: 20px;
+    padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 20px;
   }
   .info-box .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
   .info-box p { font-size: 12px; color: #185FA5; line-height: 1.6; }
@@ -245,34 +242,68 @@
   }
   .success-anim { font-size: 72px; margin-bottom: 16px; animation: pop 0.4s ease; }
   @keyframes pop { 0%{transform:scale(0.5);opacity:0} 80%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
-  .success-title { font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+  .success-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
   .success-sub { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 28px; }
   .success-detail { width: 100%; background: var(--gray-50); border-radius: var(--radius); padding: 16px; text-align: left; margin-bottom: 24px; }
   .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--gray-100); }
   .detail-row:last-child { border-bottom: none; }
   .detail-key { font-size: 12px; color: var(--gray-500); }
-  .detail-val { font-size: 12px; font-weight: 600; color: var(--gray-900); text-align: right; max-width: 60%; }
+  .detail-val { font-size: 12px; font-weight: 600; text-align: right; max-width: 60%; }
+
+  /* MY REPORTS SCREEN */
+  .report-item {
+    background: white; border-radius: var(--radius); padding: 14px;
+    margin-bottom: 10px; box-shadow: var(--shadow); position: relative;
+  }
+  .ri-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+  .ri-name { font-size: 13px; font-weight: 600; line-height: 1.3; flex: 1; }
+  .reason-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
+  .tag-0 { background: #FFF3CD; color: #856404; }
+  .tag-1 { background: var(--red-light); color: #A32D2D; }
+  .tag-2 { background: #E6F1FB; color: #185FA5; }
+  .tag-3 { background: var(--green-light); color: var(--green-dark); }
+  .tag-4 { background: #F3E8FF; color: #6B21A8; }
+  .ri-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .ri-meta span { font-size: 11px; color: var(--gray-500); }
+  .ri-actions { display: flex; gap: 8px; }
+  .btn-edit {
+    flex: 1; padding: 8px; background: var(--green-light); color: var(--green-dark);
+    border: 1px solid var(--green); border-radius: var(--radius-sm);
+    font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .btn-del {
+    flex: 1; padding: 8px; background: var(--red-light); color: var(--red);
+    border: 1px solid var(--red); border-radius: var(--radius-sm);
+    font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .empty-state { text-align: center; padding: 48px 16px; color: var(--gray-500); font-size: 14px; }
 
   /* SUMMARY */
   .date-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .date-nav .date-label { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+  .date-nav .date-label { font-size: 15px; font-weight: 700; }
   .date-nav button { background: white; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); padding: 6px 14px; font-size: 16px; cursor: pointer; }
   .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
   .stat-card { background: white; border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
   .stat-card .s-label { font-size: 11px; color: var(--gray-500); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-  .stat-card .s-value { font-size: 26px; font-weight: 800; color: var(--gray-900); }
+  .stat-card .s-value { font-size: 26px; font-weight: 800; }
   .stat-card .s-sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
-  .report-item { background: white; border-radius: var(--radius); padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); }
-  .ri-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-  .ri-name { font-size: 13px; font-weight: 600; color: var(--gray-900); line-height: 1.3; flex: 1; }
-  .reason-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
-  .tag-delivery { background: #FFF3CD; color: #856404; }
-  .tag-supplier { background: var(--red-light); color: #A32D2D; }
-  .tag-system   { background: #E6F1FB; color: #185FA5; }
-  .tag-stock    { background: var(--green-light); color: var(--green-dark); }
-  .ri-meta { display: flex; gap: 12px; flex-wrap: wrap; }
-  .ri-meta span { font-size: 11px; color: var(--gray-500); }
-  .empty-state { text-align: center; padding: 48px 16px; color: var(--gray-500); font-size: 14px; }
+
+  /* EDIT MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 200;
+    align-items: flex-end; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    background: white; border-radius: 20px 20px 0 0;
+    padding: 20px 16px 32px; width: 100%; max-width: 480px;
+    max-height: 90vh; overflow-y: auto;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-handle { width: 40px; height: 4px; background: var(--gray-300); border-radius: 2px; margin: 0 auto 16px; }
+  .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
 
   /* BOTTOM NAV */
   .bottom-nav {
@@ -307,29 +338,25 @@
 <div id="registerScreen" class="screen">
   <div style="text-align:center;padding:12px 0 20px">
     <div style="font-size:48px;margin-bottom:8px">👋</div>
-    <p style="font-size:18px;font-weight:700;color:var(--gray-900);margin-bottom:4px">ยินดีต้อนรับ!</p>
+    <p style="font-size:18px;font-weight:700;margin-bottom:4px">ยินดีต้อนรับ!</p>
     <p style="font-size:13px;color:var(--gray-500)">กรุณาลงทะเบียนก่อนใช้งาน</p>
   </div>
-
   <div class="card">
     <div class="reg-avatar-wrap">
       <div class="reg-avatar-fallback" id="regAvatarFallback">?</div>
       <p class="reg-name" id="regName">-</p>
       <p class="reg-sub">บัญชี LINE ของคุณ</p>
     </div>
-
     <div class="section-label">👤 ชื่อ Supervisor <span class="required">*</span></div>
     <div class="select-wrap" style="margin-bottom:16px">
       <select id="supSelect" onchange="checkRegister()">
         <option value="">-- เลือกชื่อของคุณ --</option>
       </select>
     </div>
-
     <div class="info-box">
       <span class="info-icon">ℹ️</span>
       <p>เลือกชื่อของคุณจากรายการ ระบบจะผูก LINE กับร้านค้าในความรับผิดชอบของคุณโดยอัตโนมัติ</p>
     </div>
-
     <button class="btn-primary" id="registerBtn" disabled onclick="doRegister()">
       ✅ ลงทะเบียนเข้าใช้งาน
     </button>
@@ -351,12 +378,21 @@
     <div class="progress-dot done"></div>
     <div class="progress-dot" id="p2"></div>
     <div class="progress-dot" id="p3"></div>
+    <div class="progress-dot" id="p4"></div>
   </div>
 
-  <div class="section-label">🏪 เลือกสาขา <span class="required">*</span></div>
-  <p class="store-count" id="storeCount"></p>
-  <div class="store-grid" id="storeGrid"></div>
+  <!-- CUSTOMER FILTER -->
+  <div class="section-label">🏢 เลือก Customer <span class="required">*</span></div>
+  <div class="customer-tabs" id="customerTabs"></div>
 
+  <!-- STORE GRID -->
+  <div id="storeSection" style="display:none">
+    <div class="section-label">🏪 เลือกสาขา <span class="required">*</span></div>
+    <p class="store-count" id="storeCount"></p>
+    <div class="store-grid" id="storeGrid"></div>
+  </div>
+
+  <!-- PRODUCT SEARCH -->
   <div class="section-label">📦 ค้นหาสินค้า <span class="required">*</span></div>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
@@ -368,28 +404,13 @@
   <div id="searchResults"></div>
   <div id="selectedProductWrap" style="display:none"></div>
 
+  <!-- REASONS -->
   <div class="section-label">⚠️ เหตุผลที่สินค้าขาด <span class="required">*</span></div>
-  <div class="reason-list">
-    <button class="reason-btn" onclick="selectReason(this,'สินค้าไม่ส่ง')">
-      <span class="r-icon">🚚</span>
-      <div><p class="r-title">สินค้าไม่ส่ง</p><p class="r-sub">ซัพพลายเออร์ไม่จัดส่งสินค้า</p></div>
-      <span class="r-check">✓</span>
-    </button>
-    <button class="reason-btn" onclick="selectReason(this,'ส่งไม่ครบ')">
-      <span class="r-icon">📦</span>
-      <div><p class="r-title">ส่งไม่ครบ</p><p class="r-sub">จำนวนสินค้าน้อยกว่าที่สั่ง</p></div>
-      <span class="r-check">✓</span>
-    </button>
-    <button class="reason-btn" onclick="selectReason(this,'สต็อกผิดพลาด')">
-      <span class="r-icon">📋</span>
-      <div><p class="r-title">สต็อกผิดพลาด</p><p class="r-sub">ข้อมูลสต็อกคลาดเคลื่อน</p></div>
-      <span class="r-check">✓</span>
-    </button>
-    <button class="reason-btn" onclick="selectReason(this,'สินค้าขายดีเกิน')">
-      <span class="r-icon">🔥</span>
-      <div><p class="r-title">สินค้าขายดีเกิน</p><p class="r-sub">ยอดขายสูงกว่าที่คาดการณ์</p></div>
-      <span class="r-check">✓</span>
-    </button>
+  <div class="reason-list" id="reasonList">
+    <div style="text-align:center;padding:16px;color:var(--gray-500);font-size:13px">
+      <div class="spinner" style="margin:0 auto 8px;width:24px;height:24px"></div>
+      กำลังโหลดเหตุผล...
+    </div>
   </div>
 
   <button class="btn-primary" id="submitBtn" disabled onclick="submitReport()">
@@ -404,29 +425,63 @@
   <p class="success-sub">ระบบรับข้อมูลสินค้าขาดแล้ว<br>ข้อมูลถูกบันทึกลง Google Sheets</p>
   <div class="success-detail" id="successDetail"></div>
   <button class="btn-primary" onclick="resetForm()">➕ แจ้งสินค้าขาดเพิ่ม</button>
-  <button class="btn-secondary" onclick="showSummary()">📊 ดูสรุปรายวัน</button>
+  <button class="btn-secondary" onclick="showMyReports()">📋 ดูรายงานของฉัน</button>
 </div>
 
-<!-- SUMMARY SCREEN -->
-<div id="summaryScreen" class="screen content-area">
+<!-- MY REPORTS SCREEN -->
+<div id="myReportsScreen" class="screen content-area">
   <div class="date-nav">
-    <button onclick="changeDate(-1)">◀</button>
-    <span class="date-label" id="dateLabel"></span>
-    <button onclick="changeDate(1)">▶</button>
+    <button onclick="changeReportDate(-1)">◀</button>
+    <span class="date-label" id="reportDateLabel"></span>
+    <button onclick="changeReportDate(1)">▶</button>
   </div>
   <div class="stat-grid">
     <div class="stat-card">
       <p class="s-label">รายการทั้งหมด</p>
-      <p class="s-value" id="statTotal">-</p>
+      <p class="s-value" id="myStatTotal">-</p>
       <p class="s-sub">รายการวันนี้</p>
     </div>
     <div class="stat-card">
       <p class="s-label">ร้านที่แจ้ง</p>
-      <p class="s-value" id="statStores">-</p>
+      <p class="s-value" id="myStatStores">-</p>
       <p class="s-sub">สาขา</p>
     </div>
   </div>
-  <div id="reportList"></div>
+  <div id="myReportList"></div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <p class="modal-title">✏️ แก้ไขรายการ</p>
+
+    <input type="hidden" id="editRowIndex">
+
+    <div class="section-label">🏢 Customer</div>
+    <div class="customer-tabs" id="editCustomerTabs" style="margin-bottom:16px"></div>
+
+    <div id="editStoreSection">
+      <div class="section-label">🏪 สาขา</div>
+      <div class="store-grid" id="editStoreGrid" style="margin-bottom:16px"></div>
+    </div>
+
+    <div class="section-label">📦 สินค้า</div>
+    <div class="search-wrap" style="margin-bottom:8px">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="editSearchInput"
+        placeholder="ค้นหาสินค้า..." oninput="onEditSearch(this.value)" autocomplete="off"/>
+      <button class="search-clear" id="editSearchClear" onclick="clearEditSearch()">✕</button>
+    </div>
+    <div id="editSearchResults"></div>
+    <div id="editSelectedProduct" style="margin-bottom:16px"></div>
+
+    <div class="section-label">⚠️ เหตุผล</div>
+    <div class="reason-list" id="editReasonList" style="margin-bottom:20px"></div>
+
+    <button class="btn-primary" id="editSaveBtn" onclick="saveEdit()">💾 บันทึกการแก้ไข</button>
+    <button class="btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
+  </div>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -434,22 +489,22 @@
   <button class="nav-btn active" id="navForm" onclick="showForm()">
     <span class="nav-icon">📝</span>แจ้งสินค้าขาด
   </button>
-  <button class="nav-btn" id="navSummary" onclick="showSummary()">
-    <span class="nav-icon">📊</span>สรุปรายวัน
+  <button class="nav-btn" id="navMyReports" onclick="showMyReports()">
+    <span class="nav-icon">📋</span>รายงานของฉัน
   </button>
 </div>
 
 <script>
-// ── CONFIG ─────────────────────────────────────────────────
 const LIFF_ID = '2010149925-eeoylGbV';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxpWjBVqFzvplFa2f3CH09Gk1_knJ7Byq7KLjDo7umIyLC56TKenWa_-k_YX_oY1rQaqg/exec';
 
-// ── STATE ──────────────────────────────────────────────────
 let state = {
   lineUserId: null, displayName: null, pictureUrl: null,
-  supName: null, stores: [],
-  selectedStore: null, selectedProduct: null, selectedReason: null,
-  reports: [], dateOffset: 0,
+  supName: null, stores: [], customers: [], reasons: [],
+  selectedCustomer: null, selectedStore: null,
+  selectedProduct: null, selectedReason: null,
+  reportDateOffset: 0,
+  editState: { rowIndex: null, store: null, product: null, reason: null, customer: null },
 };
 
 // ── INIT ───────────────────────────────────────────────────
@@ -463,172 +518,152 @@ async function init() {
     state.displayName = profile.displayName;
     state.pictureUrl  = profile.pictureUrl;
 
-    // เช็คว่า user ลงทะเบียนแล้วหรือยัง
-    const res  = await fetch(`${GAS_URL}?action=getUser&line_user_id=${profile.userId}`);
-    const data = await res.json();
+    const [userRes, reasonsRes] = await Promise.all([
+      fetch(`${GAS_URL}?action=getUser&line_user_id=${profile.userId}`).then(r => r.json()),
+      fetch(`${GAS_URL}?action=getReasons`).then(r => r.json()),
+    ]);
 
-    if (data.found) {
-      // ลงทะเบียนแล้ว → เข้าฟอร์มเลย
-      loadForm(data);
+    state.reasons = reasonsRes.reasons || [];
+
+    if (userRes.found) {
+      loadForm(userRes);
     } else {
-      // ยังไม่ลงทะเบียน → หน้าลงทะเบียน
       loadRegister(profile);
     }
-
   } catch (err) {
     showError(err.message);
   }
 }
 
-// ── LOAD REGISTER SCREEN ───────────────────────────────────
+// ── REGISTER ───────────────────────────────────────────────
 async function loadRegister(profile) {
-  // แสดงรูปและชื่อ
   document.getElementById('regName').textContent = profile.displayName;
   if (profile.pictureUrl) {
     const img = document.createElement('img');
-    img.src = profile.pictureUrl;
-    img.className = 'reg-avatar';
+    img.src = profile.pictureUrl; img.className = 'reg-avatar';
     document.getElementById('regAvatarFallback').replaceWith(img);
   } else {
-    document.getElementById('regAvatarFallback').textContent =
-      profile.displayName.charAt(0);
+    document.getElementById('regAvatarFallback').textContent = profile.displayName.charAt(0);
   }
-
-  // ดึงรายชื่อ Sup ทั้งหมดจาก store_master
   try {
-    const res  = await fetch(`${GAS_URL}?action=getSupNames`);
-    const data = await res.json();
+    const data = await fetch(`${GAS_URL}?action=getSupNames`).then(r => r.json());
     const sel  = document.getElementById('supSelect');
     data.names.forEach(name => {
       const opt = document.createElement('option');
       opt.value = name; opt.textContent = name;
       sel.appendChild(opt);
     });
-  } catch(e) {
-    showError('โหลดรายชื่อไม่สำเร็จ กรุณาลองใหม่');
-    return;
-  }
-
+  } catch(e) { showError('โหลดรายชื่อไม่สำเร็จ'); return; }
   showScreen('registerScreen');
   document.getElementById('headerTitle').textContent = 'ลงทะเบียน';
 }
 
-// ── CHECK REGISTER BUTTON ──────────────────────────────────
 function checkRegister() {
-  const val = document.getElementById('supSelect').value;
-  document.getElementById('registerBtn').disabled = !val;
+  document.getElementById('registerBtn').disabled = !document.getElementById('supSelect').value;
 }
 
-// ── DO REGISTER ────────────────────────────────────────────
 async function doRegister() {
-  const btn    = document.getElementById('registerBtn');
+  const btn = document.getElementById('registerBtn');
   const supName = document.getElementById('supSelect').value;
-  btn.disabled = true;
-  btn.textContent = '⏳ กำลังลงทะเบียน...';
-
+  btn.disabled = true; btn.textContent = '⏳ กำลังลงทะเบียน...';
   try {
-    const res  = await fetch(GAS_URL, {
+    await fetch(GAS_URL, {
       method: 'POST',
-      body: JSON.stringify({
-        action:       'registerUser',
-        line_user_id: state.lineUserId,
-        sup_name:     supName,
-        tel:          '',
-      })
+      body: JSON.stringify({ action:'registerUser', line_user_id:state.lineUserId, sup_name:supName, tel:'' })
     });
-    const data = await res.json();
-
-    if (data.success) {
-      // ลงทะเบียนสำเร็จ → โหลด user ใหม่แล้วเข้าฟอร์ม
-      const res2  = await fetch(`${GAS_URL}?action=getUser&line_user_id=${state.lineUserId}`);
-      const data2 = await res2.json();
-      if (data2.found) {
-        loadForm(data2);
-      }
-    } else {
-      // มี user แล้ว (กรณีซ้ำ) → ลองโหลดใหม่
-      const res2  = await fetch(`${GAS_URL}?action=getUser&line_user_id=${state.lineUserId}`);
-      const data2 = await res2.json();
-      if (data2.found) { loadForm(data2); }
-      else { showError(data.message || 'เกิดข้อผิดพลาด'); }
-    }
+    const data = await fetch(`${GAS_URL}?action=getUser&line_user_id=${state.lineUserId}`).then(r => r.json());
+    if (data.found) loadForm(data);
+    else showError('ลงทะเบียนไม่สำเร็จ');
   } catch(e) {
-    showError('ลงทะเบียนไม่สำเร็จ กรุณาลองใหม่');
-    btn.disabled = false;
-    btn.textContent = '✅ ลงทะเบียนเข้าใช้งาน';
+    showError('เกิดข้อผิดพลาด');
+    btn.disabled = false; btn.textContent = '✅ ลงทะเบียนเข้าใช้งาน';
   }
 }
 
 // ── LOAD FORM ──────────────────────────────────────────────
 function loadForm(data) {
-  state.supName = data.sup_name;
-  state.stores  = data.stores;
+  state.supName   = data.sup_name;
+  state.stores    = data.stores;
+  state.customers = data.customers;
 
-  // แสดงรูปและชื่อ
   document.getElementById('userName').textContent = state.displayName;
   if (state.pictureUrl) {
     const img = document.createElement('img');
     img.src = state.pictureUrl; img.className = 'avatar';
     document.getElementById('avatarFallback').replaceWith(img);
   } else {
-    document.getElementById('avatarFallback').textContent =
-      state.displayName?.charAt(0) || '?';
+    document.getElementById('avatarFallback').textContent = state.displayName?.charAt(0) || '?';
   }
-  document.getElementById('userRole').textContent =
-    `${data.sup_name} · ${data.stores.length} สาขา`;
-  document.getElementById('storeCount').textContent =
-    `พบ ${data.stores.length} สาขาในความรับผิดชอบ`;
+  document.getElementById('userRole').textContent = `${data.sup_name} · ${data.stores.length} สาขา`;
 
-  renderStores(data.stores);
+  renderCustomerTabs();
+  renderReasonList('reasonList', false);
+
   showScreen('formScreen');
   document.getElementById('bottomNav').style.display = 'flex';
   document.getElementById('headerTitle').textContent = 'แจ้งสินค้าขาด';
 }
 
-// ── RENDER STORES ──────────────────────────────────────────
-function renderStores(stores) {
-  document.getElementById('storeGrid').innerHTML = stores.map(s => `
+// ── CUSTOMER TABS ──────────────────────────────────────────
+function renderCustomerTabs() {
+  const container = document.getElementById('customerTabs');
+  container.innerHTML = state.customers.map(c => `
+    <button class="cust-tab" onclick="selectCustomer(this,'${escHtml(c)}')">${escHtml(c)}</button>
+  `).join('');
+}
+
+function selectCustomer(btn, customer) {
+  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.selectedCustomer = customer;
+  state.selectedStore    = null;
+
+  const filtered = state.stores.filter(s => s.customer === customer);
+  document.getElementById('storeCount').textContent = `พบ ${filtered.length} สาขาใน ${customer}`;
+  document.getElementById('storeGrid').innerHTML = filtered.map(s => `
     <button class="store-btn"
-      onclick="selectStore(this,'${s.store_id}','${escHtml(s.store_name)}')">
+      onclick="selectStore(this,'${escHtml(s.store_id)}','${escHtml(s.store_name)}')">
       <span style="font-size:18px">🏪</span>
       <span>${escHtml(s.store_name)}</span>
       <span class="store-id">${s.store_id}</span>
     </button>`).join('');
+  document.getElementById('storeSection').style.display = 'block';
+  updateProgress(); checkSubmit();
 }
 
-// ── SELECT STORE ───────────────────────────────────────────
+// ── STORE ──────────────────────────────────────────────────
 function selectStore(btn, storeId, storeName) {
-  document.querySelectorAll('.store-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#storeGrid .store-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   state.selectedStore = { store_id: storeId, store_name: storeName };
   updateProgress(); checkSubmit();
 }
 
-// ── SEARCH PRODUCT ─────────────────────────────────────────
+// ── PRODUCT SEARCH ─────────────────────────────────────────
 let searchTimer = null;
 function onSearch(val) {
   document.getElementById('searchClear').style.display = val ? 'flex' : 'none';
   if (state.selectedProduct) return;
   clearTimeout(searchTimer);
   if (!val.trim()) { document.getElementById('searchResults').innerHTML = ''; return; }
-  searchTimer = setTimeout(() => doSearch(val), 400);
+  searchTimer = setTimeout(() => doSearch(val, 'searchResults'), 400);
 }
 
-async function doSearch(keyword) {
-  document.getElementById('searchResults').innerHTML =
+async function doSearch(keyword, targetId) {
+  document.getElementById(targetId).innerHTML =
     '<div class="product-results"><div class="no-result">กำลังค้นหา...</div></div>';
   try {
-    const res  = await fetch(`${GAS_URL}?action=searchProduct&keyword=${encodeURIComponent(keyword)}`);
-    const data = await res.json();
+    const data = await fetch(`${GAS_URL}?action=searchProduct&keyword=${encodeURIComponent(keyword)}`).then(r => r.json());
     if (!data.results || data.results.length === 0) {
-      document.getElementById('searchResults').innerHTML =
+      document.getElementById(targetId).innerHTML =
         '<div class="product-results"><div class="no-result">ไม่พบสินค้า</div></div>';
       return;
     }
-    document.getElementById('searchResults').innerHTML =
+    const isEdit = targetId === 'editSearchResults';
+    document.getElementById(targetId).innerHTML =
       '<div class="product-results">' +
       data.results.map(p => `
-        <div class="product-item" onclick='pickProduct(${JSON.stringify(p)})'>
+        <div class="product-item" onclick='${isEdit ? "pickEditProduct" : "pickProduct"}(${JSON.stringify(p)})'>
           <div style="flex:1">
             <p class="p-name">${escHtml(p.product_th)}</p>
             <p class="p-meta">${p.barcode} · ${p.category}</p>
@@ -636,8 +671,8 @@ async function doSearch(keyword) {
           <span class="p-brand">${escHtml(p.brand)}</span>
         </div>`).join('') + '</div>';
   } catch(e) {
-    document.getElementById('searchResults').innerHTML =
-      '<div class="product-results"><div class="no-result">เกิดข้อผิดพลาด ลองใหม่</div></div>';
+    document.getElementById(targetId).innerHTML =
+      '<div class="product-results"><div class="no-result">เกิดข้อผิดพลาด</div></div>';
   }
 }
 
@@ -665,28 +700,46 @@ function clearProduct() {
   document.getElementById('selectedProductWrap').style.display = 'none';
   updateProgress(); checkSubmit();
 }
-
 function clearSearch() {
   document.getElementById('searchInput').value = '';
   document.getElementById('searchClear').style.display = 'none';
   document.getElementById('searchResults').innerHTML = '';
 }
 
-// ── SELECT REASON ──────────────────────────────────────────
+// ── REASONS ────────────────────────────────────────────────
+const TAG_CLASSES = ['tag-0','tag-1','tag-2','tag-3','tag-4','tag-0','tag-1','tag-2'];
+
+function renderReasonList(containerId, isEdit) {
+  const container = document.getElementById(containerId);
+  if (!state.reasons.length) {
+    container.innerHTML = '<div class="no-result">ไม่พบเหตุผล กรุณาเพิ่มในชีท reasons</div>';
+    return;
+  }
+  const fnName = isEdit ? 'selectEditReason' : 'selectReason';
+  container.innerHTML = state.reasons.map((r, i) => `
+    <button class="reason-btn" onclick="${fnName}(this,'${escHtml(r.reason)}')">
+      <span class="r-icon">${r.icon}</span>
+      <div><p class="r-title">${escHtml(r.reason)}</p><p class="r-sub">${escHtml(r.description)}</p></div>
+      <span class="r-check">✓</span>
+    </button>`).join('');
+}
+
 function selectReason(btn, reason) {
-  document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   state.selectedReason = reason;
   updateProgress(); checkSubmit();
 }
 
+// ── PROGRESS & VALIDATE ────────────────────────────────────
 function updateProgress() {
-  document.getElementById('p2').className = 'progress-dot ' +
-    (state.selectedStore ? 'done' : state.selectedProduct ? 'active' : '');
-  document.getElementById('p3').className = 'progress-dot ' +
-    (state.selectedReason ? 'done' : state.selectedProduct ? 'active' : '');
+  const steps = [state.selectedCustomer, state.selectedStore, state.selectedProduct, state.selectedReason];
+  ['p2','p3','p4'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.className = 'progress-dot ' + (steps[i+1] ? 'done' : steps[i] ? 'active' : '');
+  });
 }
-
 function checkSubmit() {
   document.getElementById('submitBtn').disabled =
     !(state.selectedStore && state.selectedProduct && state.selectedReason);
@@ -707,27 +760,23 @@ async function submitReport() {
       product_th:   state.selectedProduct.product_th,
       reason:       state.selectedReason,
     };
-    const res  = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) });
-    const data = await res.json();
+    const data = await fetch(GAS_URL, { method:'POST', body:JSON.stringify(payload) }).then(r => r.json());
     if (data.success) {
-      state.reports.unshift({
-        ...payload,
-        timestamp: new Date().toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit' }),
-      });
       showSuccess(payload);
     } else {
-      alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
+      alert('เกิดข้อผิดพลาด');
+      btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
     }
   } catch(e) {
-    alert('เกิดข้อผิดพลาด กรุณาลองใหม่'); btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
+    alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
+    btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
   }
 }
 
-// ── SUCCESS ────────────────────────────────────────────────
 function showSuccess(data) {
   document.getElementById('successDetail').innerHTML = [
     ['สาขา', data.store_name], ['สินค้า', data.product_th],
-    ['Barcode', data.barcode],  ['เหตุผล', data.reason],
+    ['Barcode', data.barcode], ['เหตุผล', data.reason],
   ].map(([k,v]) => `
     <div class="detail-row">
       <span class="detail-key">${k}</span>
@@ -739,11 +788,13 @@ function showSuccess(data) {
   setNavActive('navForm');
 }
 
-// ── RESET FORM ─────────────────────────────────────────────
 function resetForm() {
-  state.selectedStore = null; state.selectedProduct = null; state.selectedReason = null;
+  state.selectedCustomer = null; state.selectedStore = null;
+  state.selectedProduct = null; state.selectedReason = null;
   document.querySelectorAll('.store-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  document.getElementById('storeSection').style.display = 'none';
   document.getElementById('searchInput').value = '';
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('selectedProductWrap').style.display = 'none';
@@ -754,47 +805,248 @@ function resetForm() {
   showScreen('formScreen');
 }
 
-// ── SUMMARY ────────────────────────────────────────────────
-const reasonTagClass = {
-  'สินค้าไม่ส่ง':'tag-supplier','ส่งไม่ครบ':'tag-delivery',
-  'สต็อกผิดพลาด':'tag-system','สินค้าขายดีเกิน':'tag-stock',
-};
-function showSummary() {
+// ── MY REPORTS ─────────────────────────────────────────────
+async function showMyReports() {
   document.getElementById('successScreen').style.display = 'none';
-  showScreen('summaryScreen');
-  document.getElementById('headerTitle').textContent = 'สรุปรายวัน';
-  setNavActive('navSummary'); renderSummary();
+  showScreen('myReportsScreen');
+  document.getElementById('headerTitle').textContent = 'รายงานของฉัน';
+  setNavActive('navMyReports');
+  await loadMyReports();
 }
-function showForm() {
-  document.getElementById('successScreen').style.display = 'none';
-  showScreen('formScreen');
-  document.getElementById('headerTitle').textContent = 'แจ้งสินค้าขาด';
-  setNavActive('navForm');
-}
-function renderSummary() {
-  const d = new Date(); d.setDate(d.getDate() + state.dateOffset);
-  document.getElementById('dateLabel').textContent = d.toLocaleDateString('th-TH',
+
+async function loadMyReports() {
+  const d = new Date();
+  d.setDate(d.getDate() + state.reportDateOffset);
+  const dateStr = d.toISOString().split('T')[0];
+  document.getElementById('reportDateLabel').textContent = d.toLocaleDateString('th-TH',
     { weekday:'short', year:'numeric', month:'short', day:'numeric' });
-  const list = state.reports;
-  document.getElementById('statTotal').textContent  = list.length;
-  document.getElementById('statStores').textContent = new Set(list.map(r => r.store_id)).size;
-  document.getElementById('reportList').innerHTML = list.length === 0
-    ? '<div class="empty-state">📋<br>ยังไม่มีรายการวันนี้</div>'
-    : list.map(r => `
-      <div class="report-item">
+  document.getElementById('myReportList').innerHTML =
+    '<div class="empty-state"><div class="spinner" style="margin:0 auto 8px"></div>กำลังโหลด...</div>';
+
+  try {
+    const data = await fetch(`${GAS_URL}?action=getMyReports&line_user_id=${state.lineUserId}&date=${dateStr}`).then(r => r.json());
+    const reports = data.reports || [];
+    const isToday = state.reportDateOffset === 0;
+
+    document.getElementById('myStatTotal').textContent  = reports.length;
+    document.getElementById('myStatStores').textContent = new Set(reports.map(r => r.store_id)).size;
+
+    if (reports.length === 0) {
+      document.getElementById('myReportList').innerHTML =
+        '<div class="empty-state">📋<br>ยังไม่มีรายการวันนี้</div>';
+      return;
+    }
+
+    const reasonIdx = (r) => state.reasons.findIndex(x => x.reason === r.reason);
+
+    document.getElementById('myReportList').innerHTML = reports.map(r => `
+      <div class="report-item" id="ri-${r.row_index}">
         <div class="ri-top">
           <p class="ri-name">${escHtml(r.product_th)}</p>
-          <span class="reason-tag ${reasonTagClass[r.reason]||'tag-delivery'}">${r.reason}</span>
+          <span class="reason-tag ${TAG_CLASSES[reasonIdx(r)+1] || 'tag-0'}">${escHtml(r.reason)}</span>
         </div>
         <div class="ri-meta">
           <span>🏪 ${escHtml(r.store_name)}</span>
           <span>📟 ${r.barcode}</span>
           <span>🕐 ${r.timestamp}</span>
         </div>
+        ${isToday ? `
+        <div class="ri-actions">
+          <button class="btn-edit" onclick='openEditModal(${JSON.stringify(r)})'>✏️ แก้ไข</button>
+          <button class="btn-del" onclick="confirmDelete(${r.row_index})">🗑️ ลบ</button>
+        </div>` : ''}
       </div>`).join('');
+  } catch(e) {
+    document.getElementById('myReportList').innerHTML =
+      '<div class="empty-state">เกิดข้อผิดพลาด กรุณาลองใหม่</div>';
+  }
 }
-function changeDate(d) {
-  state.dateOffset = Math.min(0, state.dateOffset + d); renderSummary();
+
+async function changeReportDate(d) {
+  state.reportDateOffset = Math.min(0, state.reportDateOffset + d);
+  await loadMyReports();
+}
+
+// ── DELETE ─────────────────────────────────────────────────
+async function confirmDelete(rowIndex) {
+  if (!confirm('ยืนยันการลบรายการนี้?')) return;
+  try {
+    const data = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action:'deleteReport', row_index:rowIndex, line_user_id:state.lineUserId })
+    }).then(r => r.json());
+    if (data.success) {
+      document.getElementById(`ri-${rowIndex}`)?.remove();
+      await loadMyReports();
+    } else {
+      alert(data.message || 'ลบไม่สำเร็จ');
+    }
+  } catch(e) { alert('เกิดข้อผิดพลาด'); }
+}
+
+// ── EDIT MODAL ─────────────────────────────────────────────
+function openEditModal(report) {
+  state.editState = {
+    rowIndex: report.row_index,
+    store:    { store_id: report.store_id, store_name: report.store_name },
+    product:  { barcode: report.barcode, product_th: report.product_th },
+    reason:   report.reason,
+    customer: null,
+  };
+
+  // Customer tabs ใน modal
+  const editTabs = document.getElementById('editCustomerTabs');
+  editTabs.innerHTML = state.customers.map(c => `
+    <button class="cust-tab ${c === state.stores.find(s=>s.store_id===report.store_id)?.customer ? 'selected' : ''}"
+      onclick="selectEditCustomer(this,'${escHtml(c)}')">${escHtml(c)}</button>
+  `).join('');
+
+  // หา customer ของร้านนี้
+  const storeData = state.stores.find(s => s.store_id === report.store_id);
+  if (storeData) {
+    state.editState.customer = storeData.customer;
+    renderEditStores(storeData.customer, report.store_id);
+  }
+
+  // Pre-select product
+  document.getElementById('editSelectedProduct').innerHTML = `
+    <div class="selected-product">
+      <span style="font-size:22px;flex-shrink:0">📦</span>
+      <div style="flex:1">
+        <p class="sp-name">${escHtml(report.product_th)}</p>
+        <p class="sp-barcode">${report.barcode}</p>
+      </div>
+      <button class="sp-clear" onclick="clearEditProduct()">✕</button>
+    </div>`;
+
+  // Reasons
+  renderReasonList('editReasonList', true);
+  setTimeout(() => {
+    document.querySelectorAll('#editReasonList .reason-btn').forEach(btn => {
+      if (btn.querySelector('.r-title')?.textContent === report.reason) {
+        btn.classList.add('selected');
+      }
+    });
+  }, 50);
+
+  document.getElementById('editModal').classList.add('open');
+}
+
+function selectEditCustomer(btn, customer) {
+  document.querySelectorAll('#editCustomerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.editState.customer = customer;
+  state.editState.store = null;
+  renderEditStores(customer, null);
+}
+
+function renderEditStores(customer, selectedStoreId) {
+  const filtered = state.stores.filter(s => s.customer === customer);
+  document.getElementById('editStoreGrid').innerHTML = filtered.map(s => `
+    <button class="store-btn ${s.store_id === selectedStoreId ? 'selected' : ''}"
+      onclick="selectEditStore(this,'${escHtml(s.store_id)}','${escHtml(s.store_name)}')">
+      <span style="font-size:18px">🏪</span>
+      <span>${escHtml(s.store_name)}</span>
+      <span class="store-id">${s.store_id}</span>
+    </button>`).join('');
+}
+
+function selectEditStore(btn, storeId, storeName) {
+  document.querySelectorAll('#editStoreGrid .store-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.editState.store = { store_id: storeId, store_name: storeName };
+}
+
+let editSearchTimer = null;
+function onEditSearch(val) {
+  document.getElementById('editSearchClear').style.display = val ? 'flex' : 'none';
+  if (state.editState.product && !val) return;
+  clearTimeout(editSearchTimer);
+  if (!val.trim()) { document.getElementById('editSearchResults').innerHTML = ''; return; }
+  editSearchTimer = setTimeout(() => doSearch(val, 'editSearchResults'), 400);
+}
+
+function pickEditProduct(p) {
+  state.editState.product = p;
+  document.getElementById('editSearchResults').innerHTML = '';
+  document.getElementById('editSearchInput').value = '';
+  document.getElementById('editSearchClear').style.display = 'none';
+  document.getElementById('editSelectedProduct').innerHTML = `
+    <div class="selected-product">
+      <span style="font-size:22px;flex-shrink:0">📦</span>
+      <div style="flex:1">
+        <p class="sp-name">${escHtml(p.product_th)}</p>
+        <p class="sp-barcode">${p.barcode}</p>
+      </div>
+      <button class="sp-clear" onclick="clearEditProduct()">✕</button>
+    </div>`;
+}
+
+function clearEditProduct() {
+  state.editState.product = null;
+  document.getElementById('editSelectedProduct').innerHTML = '';
+}
+function clearEditSearch() {
+  document.getElementById('editSearchInput').value = '';
+  document.getElementById('editSearchClear').style.display = 'none';
+  document.getElementById('editSearchResults').innerHTML = '';
+}
+
+function selectEditReason(btn, reason) {
+  document.querySelectorAll('#editReasonList .reason-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.editState.reason = reason;
+}
+
+async function saveEdit() {
+  const e = state.editState;
+  if (!e.store || !e.product || !e.reason) {
+    alert('กรุณากรอกข้อมูลให้ครบ'); return;
+  }
+  const btn = document.getElementById('editSaveBtn');
+  btn.disabled = true; btn.textContent = '⏳ กำลังบันทึก...';
+  try {
+    const data = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'updateReport',
+        row_index:    e.rowIndex,
+        line_user_id: state.lineUserId,
+        store_id:     e.store.store_id,
+        store_name:   e.store.store_name,
+        barcode:      e.product.barcode,
+        product_th:   e.product.product_th,
+        reason:       e.reason,
+      })
+    }).then(r => r.json());
+
+    if (data.success) {
+      closeEditModal();
+      await loadMyReports();
+    } else {
+      alert(data.message || 'บันทึกไม่สำเร็จ');
+      btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
+    }
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด');
+    btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
+  }
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+  document.getElementById('editSearchResults').innerHTML = '';
+  document.getElementById('editSearchInput').value = '';
+  const btn = document.getElementById('editSaveBtn');
+  btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
+}
+
+// ── NAVIGATE ───────────────────────────────────────────────
+function showForm() {
+  document.getElementById('successScreen').style.display = 'none';
+  showScreen('formScreen');
+  document.getElementById('headerTitle').textContent = 'แจ้งสินค้าขาด';
+  setNavActive('navForm');
 }
 
 // ── HELPERS ────────────────────────────────────────────────
@@ -809,7 +1061,7 @@ function showError(msg) {
   document.getElementById('loadingScreen').innerHTML = `
     <div style="text-align:center;padding:32px">
       <div style="font-size:48px;margin-bottom:12px">⚠️</div>
-      <p style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a1a">เกิดข้อผิดพลาด</p>
+      <p style="font-size:15px;font-weight:700;margin-bottom:8px">เกิดข้อผิดพลาด</p>
       <p style="font-size:13px;color:#888">${msg}</p>
       <button onclick="location.reload()" style="margin-top:20px;padding:10px 24px;background:#06C755;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer">ลองใหม่</button>
     </div>`;
@@ -825,7 +1077,6 @@ function escHtml(str) {
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── START ──────────────────────────────────────────────────
 init();
 </script>
 </body>
