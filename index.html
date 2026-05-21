@@ -654,7 +654,7 @@ function showSuccess(data) {
   document.getElementById('successDetail').innerHTML = rows.map(([k,v]) =>
     `<div class="detail-row"><span class="detail-key">${k}</span><span class="detail-val">${escHtml(String(v))}</span></div>`
   ).join('');
-  document.getElementById('formScreen').style.display = 'none';
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const s = document.getElementById('successScreen');
   s.style.display = 'flex'; s.style.flexDirection = 'column';
   setNavActive('navForm');
