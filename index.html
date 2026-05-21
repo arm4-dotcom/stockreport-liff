@@ -7,83 +7,40 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <style>
   :root {
-    --green: #06C755;
-    --green-dark: #059142;
-    --green-light: #E8FAF0;
-    --red: #E24B4A;
-    --red-light: #FCEBEB;
-    --gray-50: #F8F8F8;
-    --gray-100: #F0F0F0;
-    --gray-200: #E0E0E0;
-    --gray-300: #D0D0D0;
-    --gray-500: #888;
-    --gray-700: #444;
-    --gray-900: #1a1a1a;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --green: #06C755; --green-dark: #059142; --green-light: #E8FAF0;
+    --red: #E24B4A; --red-light: #FCEBEB;
+    --blue: #1A73E8; --blue-light: #E8F0FE;
+    --orange: #F59E0B; --orange-light: #FEF3C7;
+    --gray-50: #F8F8F8; --gray-100: #F0F0F0; --gray-200: #E0E0E0;
+    --gray-300: #D0D0D0; --gray-500: #888; --gray-700: #444; --gray-900: #1a1a1a;
+    --radius: 12px; --radius-sm: 8px; --shadow: 0 2px 12px rgba(0,0,0,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body {
-    font-family: 'Sarabun', 'Helvetica Neue', sans-serif;
-    background: var(--gray-50); color: var(--gray-900);
-    min-height: 100vh; max-width: 480px; margin: 0 auto;
-  }
+  body { font-family: 'Sarabun','Helvetica Neue',sans-serif; background: var(--gray-50); color: var(--gray-900); min-height: 100vh; max-width: 480px; margin: 0 auto; }
 
-  .header {
-    background: var(--green); padding: 14px 16px;
-    display: flex; align-items: center; gap: 10px;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .header-logo {
-    width: 28px; height: 28px; background: white; border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 11px; color: var(--green); flex-shrink: 0;
-  }
+  .header { background: var(--green); padding: 14px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 100; }
+  .header-logo { width: 28px; height: 28px; background: white; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: var(--green); flex-shrink: 0; }
   .header h1 { color: white; font-size: 16px; font-weight: 600; flex: 1; }
 
   .screen { display: none; padding: 16px; padding-bottom: 32px; }
   .screen.active { display: block; }
-  .center-screen {
-    display: none; flex-direction: column;
-    align-items: center; justify-content: center;
-    min-height: 70vh; gap: 12px; text-align: center; padding: 32px;
-  }
+  .center-screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; gap: 12px; text-align: center; padding: 32px; }
   .center-screen.active { display: flex; }
 
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--gray-200); border-top-color: var(--green);
-    border-radius: 50%; animation: spin 0.8s linear infinite;
-  }
+  .spinner { width: 40px; height: 40px; border: 3px solid var(--gray-200); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .spinner-sm { width: 20px; height: 20px; border-width: 2px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .card { background: white; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
-  .user-bar {
-    background: white; border-radius: var(--radius);
-    padding: 12px 14px; display: flex; align-items: center; gap: 12px;
-    box-shadow: var(--shadow); margin-bottom: 16px;
-  }
+  .user-bar { background: white; border-radius: var(--radius); padding: 12px 14px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); margin-bottom: 16px; }
   .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-  .avatar-fallback {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--green-light); flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 600; color: var(--green-dark);
-  }
+  .avatar-fallback { width: 40px; height: 40px; border-radius: 50%; background: var(--green-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--green-dark); }
   .user-info .name { font-size: 14px; font-weight: 600; }
   .user-info .role { font-size: 12px; color: var(--gray-500); }
-  .line-badge {
-    margin-left: auto; background: var(--green-light); color: var(--green-dark);
-    font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap;
-  }
+  .line-badge { margin-left: auto; background: var(--green-light); color: var(--green-dark); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
 
-  .section-label {
-    font-size: 11px; font-weight: 700; color: var(--gray-500);
-    text-transform: uppercase; letter-spacing: 0.07em;
-    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-  }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
   .required { color: var(--red); font-size: 14px; }
 
   .progress-wrap { display: flex; gap: 5px; margin-bottom: 20px; }
@@ -91,155 +48,97 @@
   .progress-dot.done { background: var(--green); }
   .progress-dot.active { background: var(--green); opacity: 0.45; }
 
-  /* CUSTOMER TABS */
-  .customer-tabs {
-    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
-    margin-bottom: 16px; scrollbar-width: none;
+  /* REPORT TYPE CARDS */
+  .report-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .rtype-card {
+    background: white; border: 2px solid var(--gray-200); border-radius: var(--radius);
+    padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
   }
-  .customer-tabs::-webkit-scrollbar { display: none; }
-  .cust-tab {
-    flex-shrink: 0; padding: 7px 14px;
-    background: white; border: 1.5px solid var(--gray-200);
-    border-radius: 20px; font-size: 13px; font-weight: 500;
-    color: var(--gray-700); cursor: pointer; transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .cust-tab.selected {
-    background: var(--green); border-color: var(--green);
-    color: white; font-weight: 700;
-  }
+  .rtype-card:active { transform: scale(0.97); }
+  .rtype-card .rtype-icon { font-size: 32px; }
+  .rtype-card .rtype-title { font-size: 13px; font-weight: 700; color: var(--gray-900); line-height: 1.3; }
+  .rtype-card .rtype-sub { font-size: 11px; color: var(--gray-500); line-height: 1.4; }
+  .rtype-card.selected-stock { border-color: var(--blue); background: var(--blue-light); }
+  .rtype-card.selected-stock .rtype-title { color: var(--blue); }
+  .rtype-card.selected-stockout { border-color: var(--red); background: var(--red-light); }
+  .rtype-card.selected-stockout .rtype-title { color: #A32D2D; }
 
-  /* STORE GRID */
-  .store-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
-  .store-btn {
-    background: white; border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm); padding: 12px 10px; text-align: center;
-    cursor: pointer; transition: all 0.15s; font-size: 12px;
-    color: var(--gray-700); font-weight: 500;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-  }
+  /* CUSTOMER TABS */
+  .customer-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; scrollbar-width: none; }
+  .customer-tabs::-webkit-scrollbar { display: none; }
+  .cust-tab { flex-shrink: 0; padding: 7px 14px; background: white; border: 1.5px solid var(--gray-200); border-radius: 20px; font-size: 13px; font-weight: 500; color: var(--gray-700); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .cust-tab.selected { background: var(--green); border-color: var(--green); color: white; font-weight: 700; }
+
+  .store-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 20px; }
+  .store-btn { background: white; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; cursor: pointer; transition: all 0.15s; font-size: 12px; color: var(--gray-700); font-weight: 500; display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .store-btn .store-id { font-size: 10px; color: var(--gray-500); font-family: monospace; }
   .store-btn:active { transform: scale(0.97); }
   .store-btn.selected { border-color: var(--green); border-width: 2px; background: var(--green-light); color: var(--green-dark); }
-  .store-btn.selected .store-id { color: var(--green-dark); opacity: 0.7; }
   .store-count { font-size: 12px; color: var(--gray-500); margin-bottom: 10px; }
 
   .search-wrap { position: relative; margin-bottom: 8px; }
-  .search-wrap input {
-    width: 100%; padding: 11px 14px 11px 40px;
-    border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
-    font-size: 14px; background: white; color: var(--gray-900);
-    outline: none; font-family: inherit; transition: border-color 0.15s;
-  }
+  .search-wrap input { width: 100%; padding: 11px 14px 11px 40px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 14px; background: white; color: var(--gray-900); outline: none; font-family: inherit; transition: border-color 0.15s; }
   .search-wrap input:focus { border-color: var(--green); }
   .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-500); font-size: 17px; pointer-events: none; }
-  .search-clear {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-    background: var(--gray-300); border: none; border-radius: 50%;
-    width: 18px; height: 18px; cursor: pointer; display: none;
-    align-items: center; justify-content: center; font-size: 11px; color: white;
-  }
+  .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: var(--gray-300); border: none; border-radius: 50%; width: 18px; height: 18px; cursor: pointer; display: none; align-items: center; justify-content: center; font-size: 11px; color: white; }
 
-  .product-results {
-    background: white; border-radius: var(--radius-sm);
-    border: 1px solid var(--gray-200); overflow: hidden;
-    margin-bottom: 8px; max-height: 220px; overflow-y: auto;
-  }
-  .product-item {
-    padding: 10px 14px; display: flex; align-items: center; gap: 10px;
-    border-bottom: 1px solid var(--gray-100); cursor: pointer; transition: background 0.1s;
-  }
+  .product-results { background: white; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); overflow: hidden; margin-bottom: 8px; max-height: 220px; overflow-y: auto; }
+  .product-item { padding: 10px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--gray-100); cursor: pointer; transition: background 0.1s; }
   .product-item:last-child { border-bottom: none; }
   .product-item:active { background: var(--gray-50); }
-  .product-item .p-name { font-size: 13px; font-weight: 500; color: var(--gray-900); line-height: 1.3; }
+  .product-item .p-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
   .product-item .p-meta { font-size: 11px; color: var(--gray-500); font-family: monospace; margin-top: 2px; }
-  .product-item .p-brand {
-    margin-left: auto; font-size: 10px; font-weight: 700;
-    color: var(--green-dark); background: var(--green-light);
-    padding: 2px 7px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;
-  }
+  .product-item .p-brand { margin-left: auto; font-size: 10px; font-weight: 700; color: var(--green-dark); background: var(--green-light); padding: 2px 7px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
   .no-result { padding: 16px; text-align: center; font-size: 13px; color: var(--gray-500); }
 
-  .selected-product {
-    background: var(--green-light); border: 2px solid var(--green);
-    border-radius: var(--radius-sm); padding: 12px 14px;
-    display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
-  }
+  .selected-product { background: var(--green-light); border: 2px solid var(--green); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
   .selected-product .sp-name { font-size: 13px; font-weight: 600; color: var(--green-dark); line-height: 1.3; }
   .selected-product .sp-barcode { font-size: 11px; color: var(--green-dark); opacity: 0.7; font-family: monospace; margin-top: 2px; }
   .selected-product .sp-clear { margin-left: auto; background: none; border: none; color: var(--green-dark); font-size: 18px; cursor: pointer; flex-shrink: 0; }
 
+  /* QUANTITY INPUT */
+  .qty-wrap { margin-bottom: 20px; }
+  .qty-input-row { display: flex; align-items: center; gap: 10px; }
+  .qty-btn { width: 44px; height: 44px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-200); background: white; font-size: 22px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gray-700); flex-shrink: 0; transition: all 0.1s; }
+  .qty-btn:active { background: var(--gray-100); }
+  .qty-input { flex: 1; padding: 11px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 20px; font-weight: 700; text-align: center; outline: none; font-family: inherit; color: var(--blue); transition: border-color 0.15s; }
+  .qty-input:focus { border-color: var(--blue); }
+  .qty-unit { font-size: 13px; color: var(--gray-500); font-weight: 500; white-space: nowrap; }
+
   .reason-list { display: grid; gap: 8px; margin-bottom: 24px; }
-  .reason-btn {
-    background: white; border: 1.5px solid var(--gray-200);
-    border-radius: var(--radius-sm); padding: 12px 14px;
-    display: flex; align-items: center; gap: 12px; cursor: pointer;
-    transition: all 0.15s; text-align: left;
-  }
+  .reason-btn { background: white; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.15s; text-align: left; }
   .reason-btn.selected { border-color: var(--red); border-width: 2px; background: var(--red-light); }
   .reason-btn .r-icon { font-size: 20px; flex-shrink: 0; }
-  .reason-btn .r-title { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+  .reason-btn .r-title { font-size: 13px; font-weight: 600; }
   .reason-btn .r-sub { font-size: 11px; color: var(--gray-500); margin-top: 1px; }
   .reason-btn.selected .r-title { color: #A32D2D; }
   .reason-btn .r-check { margin-left: auto; font-size: 18px; color: var(--red); opacity: 0; transition: opacity 0.15s; flex-shrink: 0; }
   .reason-btn.selected .r-check { opacity: 1; }
 
-  .btn-primary {
-    width: 100%; padding: 15px; background: var(--green); color: white; border: none;
-    border-radius: var(--radius); font-size: 15px; font-weight: 700; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    font-family: inherit; transition: all 0.15s;
-  }
+  .btn-primary { width: 100%; padding: 15px; background: var(--green); color: white; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; transition: all 0.15s; }
   .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
   .btn-primary:not(:disabled):active { transform: scale(0.98); background: var(--green-dark); }
-  .btn-secondary {
-    width: 100%; padding: 13px; background: white; color: var(--gray-700);
-    border: 1.5px solid var(--gray-300); border-radius: var(--radius);
-    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px;
-  }
-  .btn-danger {
-    width: 100%; padding: 13px; background: white; color: var(--red);
-    border: 1.5px solid var(--red); border-radius: var(--radius);
-    font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px;
-  }
+  .btn-secondary { width: 100%; padding: 13px; background: white; color: var(--gray-700); border: 1.5px solid var(--gray-300); border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px; }
 
   /* REGISTER */
   .reg-avatar-wrap { text-align: center; margin-bottom: 20px; }
   .reg-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--green); margin-bottom: 8px; }
-  .reg-avatar-fallback {
-    width: 72px; height: 72px; border-radius: 50%; background: var(--green-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; font-weight: 700; color: var(--green-dark);
-    border: 3px solid var(--green); margin: 0 auto 8px;
-  }
+  .reg-avatar-fallback { width: 72px; height: 72px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: var(--green-dark); border: 3px solid var(--green); margin: 0 auto 8px; }
   .reg-name { font-size: 16px; font-weight: 700; }
   .reg-sub { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
 
   .select-wrap { position: relative; margin-bottom: 8px; }
-  .select-wrap select {
-    width: 100%; padding: 12px 40px 12px 14px;
-    border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
-    font-size: 14px; background: white; color: var(--gray-900);
-    outline: none; font-family: inherit; appearance: none; cursor: pointer;
-  }
+  .select-wrap select { width: 100%; padding: 12px 40px 12px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 14px; background: white; color: var(--gray-900); outline: none; font-family: inherit; appearance: none; cursor: pointer; }
   .select-wrap select:focus { border-color: var(--green); }
-  .select-wrap::after {
-    content: '▼'; position: absolute; right: 14px; top: 50%;
-    transform: translateY(-50%); color: var(--gray-500); font-size: 10px; pointer-events: none;
-  }
+  .select-wrap::after { content: '▼'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--gray-500); font-size: 10px; pointer-events: none; }
 
-  .info-box {
-    background: #E6F1FB; border-radius: var(--radius-sm);
-    padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 20px;
-  }
+  .info-box { background: #E6F1FB; border-radius: var(--radius-sm); padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 20px; }
   .info-box .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
   .info-box p { font-size: 12px; color: #185FA5; line-height: 1.6; }
 
   /* SUCCESS */
-  #successScreen {
-    display: none; flex-direction: column; align-items: center;
-    text-align: center; padding: 40px 24px; min-height: 60vh; justify-content: center;
-  }
+  #successScreen { display: none; flex-direction: column; align-items: center; text-align: center; padding: 40px 24px; min-height: 60vh; justify-content: center; }
   .success-anim { font-size: 72px; margin-bottom: 16px; animation: pop 0.4s ease; }
   @keyframes pop { 0%{transform:scale(0.5);opacity:0} 80%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
   .success-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
@@ -248,74 +147,51 @@
   .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--gray-100); }
   .detail-row:last-child { border-bottom: none; }
   .detail-key { font-size: 12px; color: var(--gray-500); }
-  .detail-val { font-size: 12px; font-weight: 600; text-align: right; max-width: 60%; }
+  .detail-val { font-size: 12px; font-weight: 600; text-align: right; max-width: 65%; }
 
-  /* MY REPORTS SCREEN */
-  .report-item {
-    background: white; border-radius: var(--radius); padding: 14px;
-    margin-bottom: 10px; box-shadow: var(--shadow); position: relative;
-  }
+  /* MY REPORTS */
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+  .filter-tab { flex: 1; padding: 8px; background: white; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; color: var(--gray-500); cursor: pointer; text-align: center; transition: all 0.15s; font-family: inherit; }
+  .filter-tab.active-all    { border-color: var(--green);  background: var(--green-light);  color: var(--green-dark); }
+  .filter-tab.active-stock  { border-color: var(--blue);   background: var(--blue-light);   color: var(--blue); }
+  .filter-tab.active-stockout { border-color: var(--red);  background: var(--red-light);    color: #A32D2D; }
+
+  .report-item { background: white; border-radius: var(--radius); padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); border-left: 4px solid var(--gray-200); }
+  .report-item.type-stock    { border-left-color: var(--blue); }
+  .report-item.type-stockout { border-left-color: var(--red); }
   .ri-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
   .ri-name { font-size: 13px; font-weight: 600; line-height: 1.3; flex: 1; }
-  .reason-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
-  .tag-0 { background: #FFF3CD; color: #856404; }
-  .tag-1 { background: var(--red-light); color: #A32D2D; }
-  .tag-2 { background: #E6F1FB; color: #185FA5; }
-  .tag-3 { background: var(--green-light); color: var(--green-dark); }
-  .tag-4 { background: #F3E8FF; color: #6B21A8; }
-  .ri-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .type-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
+  .badge-stock    { background: var(--blue-light);  color: var(--blue); }
+  .badge-stockout { background: var(--red-light);   color: #A32D2D; }
+  .reason-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; background: var(--gray-100); color: var(--gray-700); }
+  .qty-badge { font-size: 12px; font-weight: 700; color: var(--blue); background: var(--blue-light); padding: 2px 8px; border-radius: 8px; }
+  .ri-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
   .ri-meta span { font-size: 11px; color: var(--gray-500); }
   .ri-actions { display: flex; gap: 8px; }
-  .btn-edit {
-    flex: 1; padding: 8px; background: var(--green-light); color: var(--green-dark);
-    border: 1px solid var(--green); border-radius: var(--radius-sm);
-    font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-  }
-  .btn-del {
-    flex: 1; padding: 8px; background: var(--red-light); color: var(--red);
-    border: 1px solid var(--red); border-radius: var(--radius-sm);
-    font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-  }
+  .btn-edit { flex: 1; padding: 8px; background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green); border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .btn-del  { flex: 1; padding: 8px; background: var(--red-light); color: var(--red); border: 1px solid var(--red); border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
   .empty-state { text-align: center; padding: 48px 16px; color: var(--gray-500); font-size: 14px; }
 
-  /* SUMMARY */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-card { background: white; border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+  .stat-card .s-label { font-size: 11px; color: var(--gray-500); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+  .stat-card .s-value { font-size: 26px; font-weight: 800; }
+  .stat-card .s-sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
   .date-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .date-nav .date-label { font-size: 15px; font-weight: 700; }
   .date-nav button { background: white; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); padding: 6px 14px; font-size: 16px; cursor: pointer; }
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-  .stat-card { background: white; border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
-  .stat-card .s-label { font-size: 11px; color: var(--gray-500); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-  .stat-card .s-value { font-size: 26px; font-weight: 800; }
-  .stat-card .s-sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
 
   /* EDIT MODAL */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5); z-index: 200;
-    align-items: flex-end; justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  .modal-sheet {
-    background: white; border-radius: 20px 20px 0 0;
-    padding: 20px 16px 32px; width: 100%; max-width: 480px;
-    max-height: 90vh; overflow-y: auto;
-    animation: slideUp 0.25s ease;
-  }
+  .modal-sheet { background: white; border-radius: 20px 20px 0 0; padding: 20px 16px 32px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.25s ease; }
   @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
   .modal-handle { width: 40px; height: 4px; background: var(--gray-300); border-radius: 2px; margin: 0 auto 16px; }
   .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
 
-  /* BOTTOM NAV */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 480px; background: white;
-    border-top: 1px solid var(--gray-200); display: flex; z-index: 100;
-  }
-  .nav-btn {
-    flex: 1; padding: 10px 0; border: none; background: none; cursor: pointer;
-    display: flex; flex-direction: column; align-items: center; gap: 3px;
-    font-size: 10px; color: var(--gray-500); font-family: inherit; font-weight: 600;
-  }
+  .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: white; border-top: 1px solid var(--gray-200); display: flex; z-index: 100; }
+  .nav-btn { flex: 1; padding: 10px 0; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; color: var(--gray-500); font-family: inherit; font-weight: 600; }
   .nav-btn .nav-icon { font-size: 22px; }
   .nav-btn.active { color: var(--green); }
   .content-area { padding-bottom: 70px; }
@@ -325,7 +201,7 @@
 
 <div class="header">
   <div class="header-logo">LINE</div>
-  <h1 id="headerTitle">แจ้งสินค้าขาด</h1>
+  <h1 id="headerTitle">รายงานสินค้า</h1>
 </div>
 
 <!-- LOADING -->
@@ -334,7 +210,7 @@
   <p style="color:var(--gray-500);font-size:14px">กำลังโหลด...</p>
 </div>
 
-<!-- REGISTER SCREEN -->
+<!-- REGISTER -->
 <div id="registerScreen" class="screen">
   <div style="text-align:center;padding:12px 0 20px">
     <div style="font-size:48px;margin-bottom:8px">👋</div>
@@ -355,11 +231,9 @@
     </div>
     <div class="info-box">
       <span class="info-icon">ℹ️</span>
-      <p>เลือกชื่อของคุณจากรายการ ระบบจะผูก LINE กับร้านค้าในความรับผิดชอบของคุณโดยอัตโนมัติ</p>
+      <p>เลือกชื่อของคุณจากรายการ ระบบจะผูก LINE กับร้านค้าในความรับผิดชอบโดยอัตโนมัติ</p>
     </div>
-    <button class="btn-primary" id="registerBtn" disabled onclick="doRegister()">
-      ✅ ลงทะเบียนเข้าใช้งาน
-    </button>
+    <button class="btn-primary" id="registerBtn" disabled onclick="doRegister()">✅ ลงทะเบียนเข้าใช้งาน</button>
   </div>
 </div>
 
@@ -379,56 +253,78 @@
     <div class="progress-dot" id="p2"></div>
     <div class="progress-dot" id="p3"></div>
     <div class="progress-dot" id="p4"></div>
+    <div class="progress-dot" id="p5"></div>
   </div>
 
-  <!-- CUSTOMER FILTER -->
-  <div class="section-label">🏢 เลือก Customer <span class="required">*</span></div>
-  <div class="customer-tabs" id="customerTabs"></div>
+  <!-- STEP 1: REPORT TYPE -->
+  <div class="section-label">📋 ประเภทการรายงาน <span class="required">*</span></div>
+  <div class="report-type-grid">
+    <div class="rtype-card" id="rtypeStock" onclick="selectReportType('stock')">
+      <span class="rtype-icon">📊</span>
+      <p class="rtype-title">แจ้งจำนวนสต็อก</p>
+      <p class="rtype-sub">กรอกจำนวนสินค้า<br>ที่เหลืออยู่</p>
+    </div>
+    <div class="rtype-card" id="rtypeStockout" onclick="selectReportType('stockout')">
+      <span class="rtype-icon">🚫</span>
+      <p class="rtype-title">แจ้งสินค้าหมด</p>
+      <p class="rtype-sub">สินค้าขาด / หมด<br>จากชั้นวาง</p>
+    </div>
+  </div>
 
-  <!-- STORE GRID -->
+  <!-- STEP 2: CUSTOMER + STORE -->
   <div id="storeSection" style="display:none">
-    <div class="section-label">🏪 เลือกสาขา <span class="required">*</span></div>
-    <p class="store-count" id="storeCount"></p>
-    <div class="store-grid" id="storeGrid"></div>
+    <div class="section-label">🏢 เลือก Customer <span class="required">*</span></div>
+    <div class="customer-tabs" id="customerTabs"></div>
+    <div id="storeGrid2wrap" style="display:none">
+      <div class="section-label">🏪 เลือกสาขา <span class="required">*</span></div>
+      <p class="store-count" id="storeCount"></p>
+      <div class="store-grid" id="storeGrid"></div>
+    </div>
   </div>
 
-  <!-- PRODUCT SEARCH -->
+  <!-- STEP 3: PRODUCT -->
   <div class="section-label">📦 ค้นหาสินค้า <span class="required">*</span></div>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput"
-      placeholder="พิมพ์ barcode หรือชื่อสินค้า..."
-      oninput="onSearch(this.value)" autocomplete="off" />
+    <input type="text" id="searchInput" placeholder="พิมพ์ barcode หรือชื่อสินค้า..." oninput="onSearch(this.value)" autocomplete="off"/>
     <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
   </div>
   <div id="searchResults"></div>
   <div id="selectedProductWrap" style="display:none"></div>
 
-  <!-- REASONS -->
-  <div class="section-label">⚠️ เหตุผลที่สินค้าขาด <span class="required">*</span></div>
-  <div class="reason-list" id="reasonList">
-    <div style="text-align:center;padding:16px;color:var(--gray-500);font-size:13px">
-      <div class="spinner" style="margin:0 auto 8px;width:24px;height:24px"></div>
-      กำลังโหลดเหตุผล...
+  <!-- STEP 4a: QUANTITY (stock only) -->
+  <div id="quantitySection" style="display:none">
+    <div class="section-label">🔢 จำนวนสต็อกที่เหลือ <span class="required">*</span></div>
+    <div class="qty-wrap">
+      <div class="qty-input-row">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input type="number" id="qtyInput" class="qty-input" value="0" min="0" oninput="onQtyInput()" placeholder="0"/>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+        <span class="qty-unit">ชิ้น</span>
+      </div>
     </div>
   </div>
 
-  <button class="btn-primary" id="submitBtn" disabled onclick="submitReport()">
-    💾 บันทึกรายการ
-  </button>
+  <!-- STEP 4b: REASON (stockout only) -->
+  <div id="reasonSection" style="display:none">
+    <div class="section-label">⚠️ เหตุผลที่สินค้าขาด <span class="required">*</span></div>
+    <div class="reason-list" id="reasonList"></div>
+  </div>
+
+  <button class="btn-primary" id="submitBtn" disabled onclick="submitReport()">💾 บันทึกรายการ</button>
 </div>
 
-<!-- SUCCESS SCREEN -->
+<!-- SUCCESS -->
 <div id="successScreen">
   <div class="success-anim">✅</div>
   <p class="success-title">บันทึกสำเร็จ!</p>
-  <p class="success-sub">ระบบรับข้อมูลสินค้าขาดแล้ว<br>ข้อมูลถูกบันทึกลง Google Sheets</p>
+  <p class="success-sub" id="successSub">ข้อมูลถูกบันทึกลง Google Sheets</p>
   <div class="success-detail" id="successDetail"></div>
-  <button class="btn-primary" onclick="resetForm()">➕ แจ้งสินค้าขาดเพิ่ม</button>
+  <button class="btn-primary" onclick="resetForm()">➕ รายงานเพิ่ม</button>
   <button class="btn-secondary" onclick="showMyReports()">📋 ดูรายงานของฉัน</button>
 </div>
 
-<!-- MY REPORTS SCREEN -->
+<!-- MY REPORTS -->
 <div id="myReportsScreen" class="screen content-area">
   <div class="date-nav">
     <button onclick="changeReportDate(-1)">◀</button>
@@ -439,13 +335,19 @@
     <div class="stat-card">
       <p class="s-label">รายการทั้งหมด</p>
       <p class="s-value" id="myStatTotal">-</p>
-      <p class="s-sub">รายการวันนี้</p>
+      <p class="s-sub">รายการ</p>
     </div>
     <div class="stat-card">
       <p class="s-label">ร้านที่แจ้ง</p>
       <p class="s-value" id="myStatStores">-</p>
       <p class="s-sub">สาขา</p>
     </div>
+  </div>
+  <!-- FILTER TABS -->
+  <div class="filter-tabs">
+    <button class="filter-tab active-all" id="ftAll"      onclick="setFilter('all')">📋 ทั้งหมด</button>
+    <button class="filter-tab"            id="ftStock"    onclick="setFilter('stock')">📊 สต็อก</button>
+    <button class="filter-tab"            id="ftStockout" onclick="setFilter('stockout')">🚫 หมด</button>
   </div>
   <div id="myReportList"></div>
 </div>
@@ -455,29 +357,48 @@
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <p class="modal-title">✏️ แก้ไขรายการ</p>
-
     <input type="hidden" id="editRowIndex">
 
-    <div class="section-label">🏢 Customer</div>
-    <div class="customer-tabs" id="editCustomerTabs" style="margin-bottom:16px"></div>
-
-    <div id="editStoreSection">
-      <div class="section-label">🏪 สาขา</div>
-      <div class="store-grid" id="editStoreGrid" style="margin-bottom:16px"></div>
+    <div class="section-label">📋 ประเภท</div>
+    <div class="report-type-grid" style="margin-bottom:16px">
+      <div class="rtype-card" id="editRtypeStock" onclick="selectEditReportType('stock')">
+        <span class="rtype-icon">📊</span>
+        <p class="rtype-title">แจ้งจำนวนสต็อก</p>
+      </div>
+      <div class="rtype-card" id="editRtypeStockout" onclick="selectEditReportType('stockout')">
+        <span class="rtype-icon">🚫</span>
+        <p class="rtype-title">แจ้งสินค้าหมด</p>
+      </div>
     </div>
+
+    <div class="section-label">🏢 Customer</div>
+    <div class="customer-tabs" id="editCustomerTabs" style="margin-bottom:12px"></div>
+    <div class="section-label">🏪 สาขา</div>
+    <div class="store-grid" id="editStoreGrid" style="margin-bottom:16px"></div>
 
     <div class="section-label">📦 สินค้า</div>
     <div class="search-wrap" style="margin-bottom:8px">
       <span class="search-icon">🔍</span>
-      <input type="text" id="editSearchInput"
-        placeholder="ค้นหาสินค้า..." oninput="onEditSearch(this.value)" autocomplete="off"/>
+      <input type="text" id="editSearchInput" placeholder="ค้นหาสินค้า..." oninput="onEditSearch(this.value)" autocomplete="off"/>
       <button class="search-clear" id="editSearchClear" onclick="clearEditSearch()">✕</button>
     </div>
     <div id="editSearchResults"></div>
     <div id="editSelectedProduct" style="margin-bottom:16px"></div>
 
-    <div class="section-label">⚠️ เหตุผล</div>
-    <div class="reason-list" id="editReasonList" style="margin-bottom:20px"></div>
+    <div id="editQtySection" style="display:none;margin-bottom:16px">
+      <div class="section-label">🔢 จำนวนสต็อก</div>
+      <div class="qty-input-row">
+        <button class="qty-btn" onclick="changeEditQty(-1)">−</button>
+        <input type="number" id="editQtyInput" class="qty-input" value="0" min="0" oninput="onEditQtyInput()"/>
+        <button class="qty-btn" onclick="changeEditQty(1)">+</button>
+        <span class="qty-unit">ชิ้น</span>
+      </div>
+    </div>
+
+    <div id="editReasonSection" style="display:none;margin-bottom:16px">
+      <div class="section-label">⚠️ เหตุผล</div>
+      <div class="reason-list" id="editReasonList"></div>
+    </div>
 
     <button class="btn-primary" id="editSaveBtn" onclick="saveEdit()">💾 บันทึกการแก้ไข</button>
     <button class="btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
@@ -487,7 +408,7 @@
 <!-- BOTTOM NAV -->
 <div class="bottom-nav" id="bottomNav" style="display:none">
   <button class="nav-btn active" id="navForm" onclick="showForm()">
-    <span class="nav-icon">📝</span>แจ้งสินค้าขาด
+    <span class="nav-icon">📝</span>รายงานสินค้า
   </button>
   <button class="nav-btn" id="navMyReports" onclick="showMyReports()">
     <span class="nav-icon">📋</span>รายงานของฉัน
@@ -501,10 +422,12 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbxpWjBVqFzvplFa2f3CH09G
 let state = {
   lineUserId: null, displayName: null, pictureUrl: null,
   supName: null, stores: [], customers: [], reasons: [],
+  reportType: null,
   selectedCustomer: null, selectedStore: null,
   selectedProduct: null, selectedReason: null,
-  reportDateOffset: 0,
-  editState: { rowIndex: null, store: null, product: null, reason: null, customer: null },
+  quantity: 0,
+  reportDateOffset: 0, reportFilter: 'all', allReports: [],
+  editState: {},
 };
 
 // ── INIT ───────────────────────────────────────────────────
@@ -512,7 +435,6 @@ async function init() {
   try {
     await liff.init({ liffId: LIFF_ID });
     if (!liff.isLoggedIn()) { liff.login(); return; }
-
     const profile = await liff.getProfile();
     state.lineUserId  = profile.userId;
     state.displayName = profile.displayName;
@@ -522,17 +444,11 @@ async function init() {
       fetch(`${GAS_URL}?action=getUser&line_user_id=${profile.userId}`).then(r => r.json()),
       fetch(`${GAS_URL}?action=getReasons`).then(r => r.json()),
     ]);
-
     state.reasons = reasonsRes.reasons || [];
 
-    if (userRes.found) {
-      loadForm(userRes);
-    } else {
-      loadRegister(profile);
-    }
-  } catch (err) {
-    showError(err.message);
-  }
+    if (userRes.found) loadForm(userRes);
+    else loadRegister(profile);
+  } catch(err) { showError(err.message); }
 }
 
 // ── REGISTER ───────────────────────────────────────────────
@@ -547,91 +463,83 @@ async function loadRegister(profile) {
   }
   try {
     const data = await fetch(`${GAS_URL}?action=getSupNames`).then(r => r.json());
-    const sel  = document.getElementById('supSelect');
-    data.names.forEach(name => {
-      const opt = document.createElement('option');
-      opt.value = name; opt.textContent = name;
-      sel.appendChild(opt);
-    });
+    const sel = document.getElementById('supSelect');
+    data.names.forEach(n => { const o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o); });
   } catch(e) { showError('โหลดรายชื่อไม่สำเร็จ'); return; }
   showScreen('registerScreen');
   document.getElementById('headerTitle').textContent = 'ลงทะเบียน';
 }
-
 function checkRegister() {
   document.getElementById('registerBtn').disabled = !document.getElementById('supSelect').value;
 }
-
 async function doRegister() {
   const btn = document.getElementById('registerBtn');
   const supName = document.getElementById('supSelect').value;
   btn.disabled = true; btn.textContent = '⏳ กำลังลงทะเบียน...';
   try {
-    await fetch(GAS_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action:'registerUser', line_user_id:state.lineUserId, sup_name:supName, tel:'' })
-    });
+    await fetch(GAS_URL, { method:'POST', body: JSON.stringify({ action:'registerUser', line_user_id:state.lineUserId, sup_name:supName, tel:'' }) });
     const data = await fetch(`${GAS_URL}?action=getUser&line_user_id=${state.lineUserId}`).then(r => r.json());
     if (data.found) loadForm(data);
     else showError('ลงทะเบียนไม่สำเร็จ');
-  } catch(e) {
-    showError('เกิดข้อผิดพลาด');
-    btn.disabled = false; btn.textContent = '✅ ลงทะเบียนเข้าใช้งาน';
-  }
+  } catch(e) { showError('เกิดข้อผิดพลาด'); btn.disabled = false; btn.textContent = '✅ ลงทะเบียนเข้าใช้งาน'; }
 }
 
 // ── LOAD FORM ──────────────────────────────────────────────
 function loadForm(data) {
-  state.supName   = data.sup_name;
-  state.stores    = data.stores;
-  state.customers = data.customers;
-
+  state.supName = data.sup_name; state.stores = data.stores; state.customers = data.customers;
   document.getElementById('userName').textContent = state.displayName;
   if (state.pictureUrl) {
-    const img = document.createElement('img');
-    img.src = state.pictureUrl; img.className = 'avatar';
+    const img = document.createElement('img'); img.src = state.pictureUrl; img.className = 'avatar';
     document.getElementById('avatarFallback').replaceWith(img);
-  } else {
-    document.getElementById('avatarFallback').textContent = state.displayName?.charAt(0) || '?';
-  }
+  } else { document.getElementById('avatarFallback').textContent = state.displayName?.charAt(0) || '?'; }
   document.getElementById('userRole').textContent = `${data.sup_name} · ${data.stores.length} สาขา`;
-
-  renderCustomerTabs();
+  renderCustomerTabs('customerTabs', false);
   renderReasonList('reasonList', false);
-
   showScreen('formScreen');
   document.getElementById('bottomNav').style.display = 'flex';
-  document.getElementById('headerTitle').textContent = 'แจ้งสินค้าขาด';
+  document.getElementById('headerTitle').textContent = 'รายงานสินค้า';
 }
 
-// ── CUSTOMER TABS ──────────────────────────────────────────
-function renderCustomerTabs() {
-  const container = document.getElementById('customerTabs');
-  container.innerHTML = state.customers.map(c => `
-    <button class="cust-tab" onclick="selectCustomer(this,'${escHtml(c)}')">${escHtml(c)}</button>
-  `).join('');
-}
-
-function selectCustomer(btn, customer) {
-  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.selectedCustomer = customer;
-  state.selectedStore    = null;
-
-  const filtered = state.stores.filter(s => s.customer === customer);
-  document.getElementById('storeCount').textContent = `พบ ${filtered.length} สาขาใน ${customer}`;
-  document.getElementById('storeGrid').innerHTML = filtered.map(s => `
-    <button class="store-btn"
-      onclick="selectStore(this,'${escHtml(s.store_id)}','${escHtml(s.store_name)}')">
-      <span style="font-size:18px">🏪</span>
-      <span>${escHtml(s.store_name)}</span>
-      <span class="store-id">${s.store_id}</span>
-    </button>`).join('');
+// ── REPORT TYPE ────────────────────────────────────────────
+function selectReportType(type) {
+  state.reportType = type;
+  document.getElementById('rtypeStock').className    = 'rtype-card' + (type==='stock'    ? ' selected-stock' : '');
+  document.getElementById('rtypeStockout').className = 'rtype-card' + (type==='stockout' ? ' selected-stockout' : '');
   document.getElementById('storeSection').style.display = 'block';
+  document.getElementById('quantitySection').style.display = type === 'stock'    ? 'block' : 'none';
+  document.getElementById('reasonSection').style.display   = type === 'stockout' ? 'block' : 'none';
+  // reset step 2+
+  state.selectedCustomer = null; state.selectedStore = null;
+  state.selectedReason = null; state.quantity = 0;
+  document.getElementById('qtyInput').value = '0';
+  document.querySelectorAll('#storeGrid .store-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  document.getElementById('storeGrid2wrap').style.display = 'none';
   updateProgress(); checkSubmit();
 }
 
-// ── STORE ──────────────────────────────────────────────────
+// ── CUSTOMER ───────────────────────────────────────────────
+function renderCustomerTabs(containerId, isEdit) {
+  const fn = isEdit ? "selectEditCustomer" : "selectCustomer";
+  document.getElementById(containerId).innerHTML = state.customers.map(c =>
+    `<button class="cust-tab" onclick='${fn}(this,"${escHtml(c)}")'>${escHtml(c)}</button>`
+  ).join('');
+}
+function selectCustomer(btn, customer) {
+  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.selectedCustomer = customer; state.selectedStore = null;
+  const filtered = state.stores.filter(s => s.customer === customer);
+  document.getElementById('storeCount').textContent = `พบ ${filtered.length} สาขาใน ${customer}`;
+  document.getElementById('storeGrid').innerHTML = filtered.map(s =>
+    `<button class="store-btn" onclick='selectStore(this,"${escHtml(s.store_id)}","${escHtml(s.store_name)}")'>
+      <span style="font-size:18px">🏪</span><span>${escHtml(s.store_name)}</span>
+      <span class="store-id">${s.store_id}</span></button>`
+  ).join('');
+  document.getElementById('storeGrid2wrap').style.display = 'block';
+  updateProgress(); checkSubmit();
+}
 function selectStore(btn, storeId, storeName) {
   document.querySelectorAll('#storeGrid .store-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
@@ -646,36 +554,20 @@ function onSearch(val) {
   if (state.selectedProduct) return;
   clearTimeout(searchTimer);
   if (!val.trim()) { document.getElementById('searchResults').innerHTML = ''; return; }
-  searchTimer = setTimeout(() => doSearch(val, 'searchResults'), 400);
+  searchTimer = setTimeout(() => doSearch(val, 'searchResults', false), 400);
 }
-
-async function doSearch(keyword, targetId) {
-  document.getElementById(targetId).innerHTML =
-    '<div class="product-results"><div class="no-result">กำลังค้นหา...</div></div>';
+async function doSearch(keyword, targetId, isEdit) {
+  document.getElementById(targetId).innerHTML = '<div class="product-results"><div class="no-result">กำลังค้นหา...</div></div>';
   try {
     const data = await fetch(`${GAS_URL}?action=searchProduct&keyword=${encodeURIComponent(keyword)}`).then(r => r.json());
-    if (!data.results || data.results.length === 0) {
-      document.getElementById(targetId).innerHTML =
-        '<div class="product-results"><div class="no-result">ไม่พบสินค้า</div></div>';
-      return;
-    }
-    const isEdit = targetId === 'editSearchResults';
-    document.getElementById(targetId).innerHTML =
-      '<div class="product-results">' +
-      data.results.map(p => `
-        <div class="product-item" onclick='${isEdit ? "pickEditProduct" : "pickProduct"}(${JSON.stringify(p)})'>
-          <div style="flex:1">
-            <p class="p-name">${escHtml(p.product_th)}</p>
-            <p class="p-meta">${p.barcode} · ${p.category}</p>
-          </div>
-          <span class="p-brand">${escHtml(p.brand)}</span>
-        </div>`).join('') + '</div>';
-  } catch(e) {
-    document.getElementById(targetId).innerHTML =
-      '<div class="product-results"><div class="no-result">เกิดข้อผิดพลาด</div></div>';
-  }
+    if (!data.results?.length) { document.getElementById(targetId).innerHTML = '<div class="product-results"><div class="no-result">ไม่พบสินค้า</div></div>'; return; }
+    const fn = isEdit ? 'pickEditProduct' : 'pickProduct';
+    document.getElementById(targetId).innerHTML = '<div class="product-results">' +
+      data.results.map(p => `<div class="product-item" onclick='${fn}(${JSON.stringify(p)})'>
+        <div style="flex:1"><p class="p-name">${escHtml(p.product_th)}</p><p class="p-meta">${p.barcode} · ${p.category}</p></div>
+        <span class="p-brand">${escHtml(p.brand)}</span></div>`).join('') + '</div>';
+  } catch(e) { document.getElementById(targetId).innerHTML = '<div class="product-results"><div class="no-result">เกิดข้อผิดพลาด</div></div>'; }
 }
-
 function pickProduct(p) {
   state.selectedProduct = p;
   document.getElementById('searchResults').innerHTML = '';
@@ -683,66 +575,52 @@ function pickProduct(p) {
   document.getElementById('searchClear').style.display = 'none';
   const wrap = document.getElementById('selectedProductWrap');
   wrap.style.display = 'block';
-  wrap.innerHTML = `
-    <div class="selected-product">
-      <span style="font-size:22px;flex-shrink:0">📦</span>
-      <div style="flex:1">
-        <p class="sp-name">${escHtml(p.product_th)}</p>
-        <p class="sp-barcode">${p.barcode}</p>
-      </div>
-      <button class="sp-clear" onclick="clearProduct()">✕</button>
-    </div>`;
+  wrap.innerHTML = `<div class="selected-product"><span style="font-size:22px;flex-shrink:0">📦</span>
+    <div style="flex:1"><p class="sp-name">${escHtml(p.product_th)}</p><p class="sp-barcode">${p.barcode}</p></div>
+    <button class="sp-clear" onclick="clearProduct()">✕</button></div>`;
   updateProgress(); checkSubmit();
 }
+function clearProduct() { state.selectedProduct = null; document.getElementById('selectedProductWrap').style.display = 'none'; updateProgress(); checkSubmit(); }
+function clearSearch() { document.getElementById('searchInput').value = ''; document.getElementById('searchClear').style.display = 'none'; document.getElementById('searchResults').innerHTML = ''; }
 
-function clearProduct() {
-  state.selectedProduct = null;
-  document.getElementById('selectedProductWrap').style.display = 'none';
-  updateProgress(); checkSubmit();
+// ── QUANTITY ───────────────────────────────────────────────
+function changeQty(delta) {
+  const input = document.getElementById('qtyInput');
+  state.quantity = Math.max(0, (parseInt(input.value) || 0) + delta);
+  input.value = state.quantity; checkSubmit();
 }
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('searchClear').style.display = 'none';
-  document.getElementById('searchResults').innerHTML = '';
-}
+function onQtyInput() { state.quantity = Math.max(0, parseInt(document.getElementById('qtyInput').value) || 0); checkSubmit(); }
 
-// ── REASONS ────────────────────────────────────────────────
-const TAG_CLASSES = ['tag-0','tag-1','tag-2','tag-3','tag-4','tag-0','tag-1','tag-2'];
-
+// ── REASON ─────────────────────────────────────────────────
 function renderReasonList(containerId, isEdit) {
-  const container = document.getElementById(containerId);
-  if (!state.reasons.length) {
-    container.innerHTML = '<div class="no-result">ไม่พบเหตุผล กรุณาเพิ่มในชีท reasons</div>';
-    return;
-  }
-  const fnName = isEdit ? 'selectEditReason' : 'selectReason';
-  container.innerHTML = state.reasons.map((r, i) => `
-    <button class="reason-btn" onclick="${fnName}(this,'${escHtml(r.reason)}')">
-      <span class="r-icon">${r.icon}</span>
-      <div><p class="r-title">${escHtml(r.reason)}</p><p class="r-sub">${escHtml(r.description)}</p></div>
-      <span class="r-check">✓</span>
-    </button>`).join('');
+  const fn = isEdit ? 'selectEditReason' : 'selectReason';
+  document.getElementById(containerId).innerHTML = state.reasons.length
+    ? state.reasons.map(r => `<button class="reason-btn" onclick='${fn}(this,"${escHtml(r.reason)}")'>
+        <span class="r-icon">${r.icon}</span>
+        <div><p class="r-title">${escHtml(r.reason)}</p><p class="r-sub">${escHtml(r.description)}</p></div>
+        <span class="r-check">✓</span></button>`).join('')
+    : '<div class="no-result">ไม่พบเหตุผล</div>';
 }
-
 function selectReason(btn, reason) {
   document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.selectedReason = reason;
-  updateProgress(); checkSubmit();
+  btn.classList.add('selected'); state.selectedReason = reason; updateProgress(); checkSubmit();
 }
 
 // ── PROGRESS & VALIDATE ────────────────────────────────────
 function updateProgress() {
-  const steps = [state.selectedCustomer, state.selectedStore, state.selectedProduct, state.selectedReason];
-  ['p2','p3','p4'].forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.className = 'progress-dot ' + (steps[i+1] ? 'done' : steps[i] ? 'active' : '');
+  const s = state;
+  const steps = [s.reportType, s.selectedStore, s.selectedProduct,
+    s.reportType === 'stock' ? s.quantity >= 0 && s.selectedProduct : s.selectedReason];
+  ['p2','p3','p4','p5'].forEach((id,i) => {
+    const el = document.getElementById(id); if (!el) return;
+    el.className = 'progress-dot ' + (steps[i] ? 'done' : steps[i-1] ? 'active' : '');
   });
 }
 function checkSubmit() {
-  document.getElementById('submitBtn').disabled =
-    !(state.selectedStore && state.selectedProduct && state.selectedReason);
+  const s = state;
+  const ok = s.reportType && s.selectedStore && s.selectedProduct &&
+    (s.reportType === 'stock' ? true : !!s.selectedReason);
+  document.getElementById('submitBtn').disabled = !ok;
 }
 
 // ── SUBMIT ─────────────────────────────────────────────────
@@ -751,37 +629,31 @@ async function submitReport() {
   btn.disabled = true; btn.textContent = '⏳ กำลังบันทึก...';
   try {
     const payload = {
-      action: 'submitReport',
-      line_user_id: state.lineUserId,
-      sup_name:     state.supName,
-      store_id:     state.selectedStore.store_id,
-      store_name:   state.selectedStore.store_name,
-      barcode:      state.selectedProduct.barcode,
-      product_th:   state.selectedProduct.product_th,
-      reason:       state.selectedReason,
+      action: 'submitReport', line_user_id: state.lineUserId, sup_name: state.supName,
+      store_id: state.selectedStore.store_id, store_name: state.selectedStore.store_name,
+      barcode: state.selectedProduct.barcode, product_th: state.selectedProduct.product_th,
+      report_type: state.reportType,
+      quantity: state.reportType === 'stock' ? state.quantity : '',
+      reason:   state.reportType === 'stockout' ? state.selectedReason : '',
     };
-    const data = await fetch(GAS_URL, { method:'POST', body:JSON.stringify(payload) }).then(r => r.json());
-    if (data.success) {
-      showSuccess(payload);
-    } else {
-      alert('เกิดข้อผิดพลาด');
-      btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
-    }
-  } catch(e) {
-    alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
-    btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ';
-  }
+    const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) }).then(r => r.json());
+    if (data.success) showSuccess(payload);
+    else { alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ'; }
+  } catch(e) { alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = '💾 บันทึกรายการ'; }
 }
 
 function showSuccess(data) {
-  document.getElementById('successDetail').innerHTML = [
-    ['สาขา', data.store_name], ['สินค้า', data.product_th],
-    ['Barcode', data.barcode], ['เหตุผล', data.reason],
-  ].map(([k,v]) => `
-    <div class="detail-row">
-      <span class="detail-key">${k}</span>
-      <span class="detail-val">${escHtml(v)}</span>
-    </div>`).join('');
+  const isStock = data.report_type === 'stock';
+  document.getElementById('successSub').textContent = isStock
+    ? 'บันทึกข้อมูลสต็อกสินค้าแล้ว ✅' : 'บันทึกรายการสินค้าหมดแล้ว ✅';
+  const rows = [
+    ['ประเภท', isStock ? '📊 แจ้งจำนวนสต็อก' : '🚫 แจ้งสินค้าหมด'],
+    ['สาขา', data.store_name], ['สินค้า', data.product_th], ['Barcode', data.barcode],
+    ...(isStock ? [['จำนวน', `${data.quantity} ชิ้น`]] : [['เหตุผล', data.reason]]),
+  ];
+  document.getElementById('successDetail').innerHTML = rows.map(([k,v]) =>
+    `<div class="detail-row"><span class="detail-key">${k}</span><span class="detail-val">${escHtml(String(v))}</span></div>`
+  ).join('');
   document.getElementById('formScreen').style.display = 'none';
   const s = document.getElementById('successScreen');
   s.style.display = 'flex'; s.style.flexDirection = 'column';
@@ -789,17 +661,21 @@ function showSuccess(data) {
 }
 
 function resetForm() {
-  state.selectedCustomer = null; state.selectedStore = null;
-  state.selectedProduct = null; state.selectedReason = null;
-  document.querySelectorAll('.store-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  state.reportType = null; state.selectedCustomer = null; state.selectedStore = null;
+  state.selectedProduct = null; state.selectedReason = null; state.quantity = 0;
+  document.getElementById('rtypeStock').className = 'rtype-card';
+  document.getElementById('rtypeStockout').className = 'rtype-card';
   document.getElementById('storeSection').style.display = 'none';
+  document.getElementById('storeGrid2wrap').style.display = 'none';
+  document.getElementById('quantitySection').style.display = 'none';
+  document.getElementById('reasonSection').style.display = 'none';
+  document.querySelectorAll('.store-btn,.reason-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
   document.getElementById('searchInput').value = '';
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('selectedProductWrap').style.display = 'none';
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.innerHTML = '💾 บันทึกรายการ';
+  document.getElementById('qtyInput').value = '0';
+  const btn = document.getElementById('submitBtn'); btn.disabled = true; btn.innerHTML = '💾 บันทึกรายการ';
   updateProgress();
   document.getElementById('successScreen').style.display = 'none';
   showScreen('formScreen');
@@ -813,55 +689,52 @@ async function showMyReports() {
   setNavActive('navMyReports');
   await loadMyReports();
 }
-
 async function loadMyReports() {
-  const d = new Date();
-  d.setDate(d.getDate() + state.reportDateOffset);
+  const d = new Date(); d.setDate(d.getDate() + state.reportDateOffset);
   const dateStr = d.toISOString().split('T')[0];
-  document.getElementById('reportDateLabel').textContent = d.toLocaleDateString('th-TH',
-    { weekday:'short', year:'numeric', month:'short', day:'numeric' });
-  document.getElementById('myReportList').innerHTML =
-    '<div class="empty-state"><div class="spinner" style="margin:0 auto 8px"></div>กำลังโหลด...</div>';
-
+  document.getElementById('reportDateLabel').textContent = d.toLocaleDateString('th-TH', { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+  document.getElementById('myReportList').innerHTML = '<div class="empty-state"><div class="spinner" style="margin:0 auto 8px"></div>กำลังโหลด...</div>';
   try {
     const data = await fetch(`${GAS_URL}?action=getMyReports&line_user_id=${state.lineUserId}&date=${dateStr}`).then(r => r.json());
-    const reports = data.reports || [];
-    const isToday = state.reportDateOffset === 0;
-
-    document.getElementById('myStatTotal').textContent  = reports.length;
-    document.getElementById('myStatStores').textContent = new Set(reports.map(r => r.store_id)).size;
-
-    if (reports.length === 0) {
-      document.getElementById('myReportList').innerHTML =
-        '<div class="empty-state">📋<br>ยังไม่มีรายการวันนี้</div>';
-      return;
-    }
-
-    const reasonIdx = (r) => state.reasons.findIndex(x => x.reason === r.reason);
-
-    document.getElementById('myReportList').innerHTML = reports.map(r => `
-      <div class="report-item" id="ri-${r.row_index}">
-        <div class="ri-top">
-          <p class="ri-name">${escHtml(r.product_th)}</p>
-          <span class="reason-tag ${TAG_CLASSES[reasonIdx(r)+1] || 'tag-0'}">${escHtml(r.reason)}</span>
-        </div>
-        <div class="ri-meta">
-          <span>🏪 ${escHtml(r.store_name)}</span>
-          <span>📟 ${r.barcode}</span>
-          <span>🕐 ${r.timestamp}</span>
-        </div>
-        ${isToday ? `
-        <div class="ri-actions">
-          <button class="btn-edit" onclick='openEditModal(${JSON.stringify(r)})'>✏️ แก้ไข</button>
-          <button class="btn-del" onclick="confirmDelete(${r.row_index})">🗑️ ลบ</button>
-        </div>` : ''}
-      </div>`).join('');
-  } catch(e) {
-    document.getElementById('myReportList').innerHTML =
-      '<div class="empty-state">เกิดข้อผิดพลาด กรุณาลองใหม่</div>';
-  }
+    state.allReports = data.reports || [];
+    renderMyReports();
+  } catch(e) { document.getElementById('myReportList').innerHTML = '<div class="empty-state">เกิดข้อผิดพลาด</div>'; }
 }
-
+function renderMyReports() {
+  const isToday = state.reportDateOffset === 0;
+  const reports = state.allReports.filter(r =>
+    state.reportFilter === 'all' || r.report_type === state.reportFilter
+  );
+  document.getElementById('myStatTotal').textContent  = state.allReports.length;
+  document.getElementById('myStatStores').textContent = new Set(state.allReports.map(r => r.store_id)).size;
+  if (!reports.length) { document.getElementById('myReportList').innerHTML = '<div class="empty-state">📋<br>ไม่มีรายการ</div>'; return; }
+  document.getElementById('myReportList').innerHTML = reports.map(r => {
+    const isStock = r.report_type === 'stock';
+    return `<div class="report-item type-${r.report_type}" id="ri-${r.row_index}">
+      <div class="ri-top">
+        <p class="ri-name">${escHtml(r.product_th)}</p>
+        <span class="type-badge badge-${r.report_type}">${isStock ? '📊 สต็อก' : '🚫 หมด'}</span>
+      </div>
+      <div class="ri-meta">
+        <span>🏪 ${escHtml(r.store_name)}</span>
+        <span>📟 ${r.barcode}</span>
+        <span>🕐 ${r.timestamp}</span>
+        ${isStock ? `<span class="qty-badge">📦 ${r.quantity} ชิ้น</span>` : `<span class="reason-tag">${escHtml(r.reason)}</span>`}
+      </div>
+      ${isToday ? `<div class="ri-actions">
+        <button class="btn-edit" onclick='openEditModal(${JSON.stringify(r)})'>✏️ แก้ไข</button>
+        <button class="btn-del"  onclick="confirmDelete(${r.row_index})">🗑️ ลบ</button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+function setFilter(f) {
+  state.reportFilter = f;
+  document.getElementById('ftAll').className      = 'filter-tab' + (f==='all'      ? ' active-all' : '');
+  document.getElementById('ftStock').className    = 'filter-tab' + (f==='stock'    ? ' active-stock' : '');
+  document.getElementById('ftStockout').className = 'filter-tab' + (f==='stockout' ? ' active-stockout' : '');
+  renderMyReports();
+}
 async function changeReportDate(d) {
   state.reportDateOffset = Math.min(0, state.reportDateOffset + d);
   await loadMyReports();
@@ -871,211 +744,135 @@ async function changeReportDate(d) {
 async function confirmDelete(rowIndex) {
   if (!confirm('ยืนยันการลบรายการนี้?')) return;
   try {
-    const data = await fetch(GAS_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action:'deleteReport', row_index:rowIndex, line_user_id:state.lineUserId })
-    }).then(r => r.json());
-    if (data.success) {
-      document.getElementById(`ri-${rowIndex}`)?.remove();
-      await loadMyReports();
-    } else {
-      alert(data.message || 'ลบไม่สำเร็จ');
-    }
+    const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({ action:'deleteReport', row_index:rowIndex, line_user_id:state.lineUserId }) }).then(r => r.json());
+    if (data.success) await loadMyReports();
+    else alert(data.message || 'ลบไม่สำเร็จ');
   } catch(e) { alert('เกิดข้อผิดพลาด'); }
 }
 
 // ── EDIT MODAL ─────────────────────────────────────────────
 function openEditModal(report) {
-  state.editState = {
-    rowIndex: report.row_index,
-    store:    { store_id: report.store_id, store_name: report.store_name },
-    product:  { barcode: report.barcode, product_th: report.product_th },
-    reason:   report.reason,
-    customer: null,
+  const es = state.editState = {
+    rowIndex: report.row_index, reportType: report.report_type,
+    store: { store_id: report.store_id, store_name: report.store_name },
+    product: { barcode: report.barcode, product_th: report.product_th },
+    reason: report.reason, quantity: parseInt(report.quantity) || 0, customer: null,
   };
-
-  // Customer tabs ใน modal
-  const editTabs = document.getElementById('editCustomerTabs');
-  editTabs.innerHTML = state.customers.map(c => `
-    <button class="cust-tab ${c === state.stores.find(s=>s.store_id===report.store_id)?.customer ? 'selected' : ''}"
-      onclick="selectEditCustomer(this,'${escHtml(c)}')">${escHtml(c)}</button>
-  `).join('');
-
-  // หา customer ของร้านนี้
+  // report type
+  selectEditReportType(es.reportType);
+  // customer tabs
+  renderCustomerTabs('editCustomerTabs', true);
   const storeData = state.stores.find(s => s.store_id === report.store_id);
-  if (storeData) {
-    state.editState.customer = storeData.customer;
-    renderEditStores(storeData.customer, report.store_id);
-  }
-
-  // Pre-select product
+  if (storeData) { es.customer = storeData.customer; renderEditStores(storeData.customer, report.store_id); }
+  // product
   document.getElementById('editSelectedProduct').innerHTML = `
-    <div class="selected-product">
-      <span style="font-size:22px;flex-shrink:0">📦</span>
-      <div style="flex:1">
-        <p class="sp-name">${escHtml(report.product_th)}</p>
-        <p class="sp-barcode">${report.barcode}</p>
-      </div>
-      <button class="sp-clear" onclick="clearEditProduct()">✕</button>
-    </div>`;
-
-  // Reasons
+    <div class="selected-product"><span style="font-size:22px;flex-shrink:0">📦</span>
+      <div style="flex:1"><p class="sp-name">${escHtml(report.product_th)}</p><p class="sp-barcode">${report.barcode}</p></div>
+      <button class="sp-clear" onclick="clearEditProduct()">✕</button></div>`;
+  // qty / reason
+  document.getElementById('editQtyInput').value = es.quantity;
   renderReasonList('editReasonList', true);
   setTimeout(() => {
     document.querySelectorAll('#editReasonList .reason-btn').forEach(btn => {
-      if (btn.querySelector('.r-title')?.textContent === report.reason) {
-        btn.classList.add('selected');
-      }
+      if (btn.querySelector('.r-title')?.textContent === report.reason) btn.classList.add('selected');
+    });
+    document.querySelectorAll('#editCustomerTabs .cust-tab').forEach(btn => {
+      if (btn.textContent === es.customer) btn.classList.add('selected');
     });
   }, 50);
-
   document.getElementById('editModal').classList.add('open');
 }
-
+function selectEditReportType(type) {
+  state.editState.reportType = type;
+  document.getElementById('editRtypeStock').className    = 'rtype-card' + (type==='stock'    ? ' selected-stock' : '');
+  document.getElementById('editRtypeStockout').className = 'rtype-card' + (type==='stockout' ? ' selected-stockout' : '');
+  document.getElementById('editQtySection').style.display    = type === 'stock'    ? 'block' : 'none';
+  document.getElementById('editReasonSection').style.display = type === 'stockout' ? 'block' : 'none';
+}
 function selectEditCustomer(btn, customer) {
   document.querySelectorAll('#editCustomerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.editState.customer = customer;
-  state.editState.store = null;
+  btn.classList.add('selected'); state.editState.customer = customer; state.editState.store = null;
   renderEditStores(customer, null);
 }
-
-function renderEditStores(customer, selectedStoreId) {
-  const filtered = state.stores.filter(s => s.customer === customer);
-  document.getElementById('editStoreGrid').innerHTML = filtered.map(s => `
-    <button class="store-btn ${s.store_id === selectedStoreId ? 'selected' : ''}"
-      onclick="selectEditStore(this,'${escHtml(s.store_id)}','${escHtml(s.store_name)}')">
-      <span style="font-size:18px">🏪</span>
-      <span>${escHtml(s.store_name)}</span>
-      <span class="store-id">${s.store_id}</span>
-    </button>`).join('');
+function renderEditStores(customer, selectedId) {
+  document.getElementById('editStoreGrid').innerHTML = state.stores.filter(s => s.customer === customer).map(s =>
+    `<button class="store-btn ${s.store_id === selectedId ? 'selected' : ''}"
+      onclick='selectEditStore(this,"${escHtml(s.store_id)}","${escHtml(s.store_name)}")'>
+      <span style="font-size:18px">🏪</span><span>${escHtml(s.store_name)}</span>
+      <span class="store-id">${s.store_id}</span></button>`
+  ).join('');
 }
-
 function selectEditStore(btn, storeId, storeName) {
   document.querySelectorAll('#editStoreGrid .store-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.editState.store = { store_id: storeId, store_name: storeName };
+  btn.classList.add('selected'); state.editState.store = { store_id: storeId, store_name: storeName };
 }
-
 let editSearchTimer = null;
 function onEditSearch(val) {
   document.getElementById('editSearchClear').style.display = val ? 'flex' : 'none';
-  if (state.editState.product && !val) return;
   clearTimeout(editSearchTimer);
   if (!val.trim()) { document.getElementById('editSearchResults').innerHTML = ''; return; }
-  editSearchTimer = setTimeout(() => doSearch(val, 'editSearchResults'), 400);
+  editSearchTimer = setTimeout(() => doSearch(val, 'editSearchResults', true), 400);
 }
-
 function pickEditProduct(p) {
   state.editState.product = p;
   document.getElementById('editSearchResults').innerHTML = '';
-  document.getElementById('editSearchInput').value = '';
-  document.getElementById('editSearchClear').style.display = 'none';
+  document.getElementById('editSearchInput').value = ''; document.getElementById('editSearchClear').style.display = 'none';
   document.getElementById('editSelectedProduct').innerHTML = `
-    <div class="selected-product">
-      <span style="font-size:22px;flex-shrink:0">📦</span>
-      <div style="flex:1">
-        <p class="sp-name">${escHtml(p.product_th)}</p>
-        <p class="sp-barcode">${p.barcode}</p>
-      </div>
-      <button class="sp-clear" onclick="clearEditProduct()">✕</button>
-    </div>`;
+    <div class="selected-product"><span style="font-size:22px;flex-shrink:0">📦</span>
+      <div style="flex:1"><p class="sp-name">${escHtml(p.product_th)}</p><p class="sp-barcode">${p.barcode}</p></div>
+      <button class="sp-clear" onclick="clearEditProduct()">✕</button></div>`;
 }
-
-function clearEditProduct() {
-  state.editState.product = null;
-  document.getElementById('editSelectedProduct').innerHTML = '';
-}
-function clearEditSearch() {
-  document.getElementById('editSearchInput').value = '';
-  document.getElementById('editSearchClear').style.display = 'none';
-  document.getElementById('editSearchResults').innerHTML = '';
-}
-
-function selectEditReason(btn, reason) {
-  document.querySelectorAll('#editReasonList .reason-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.editState.reason = reason;
-}
+function clearEditProduct() { state.editState.product = null; document.getElementById('editSelectedProduct').innerHTML = ''; }
+function clearEditSearch() { document.getElementById('editSearchInput').value = ''; document.getElementById('editSearchClear').style.display = 'none'; document.getElementById('editSearchResults').innerHTML = ''; }
+function changeEditQty(delta) { const input = document.getElementById('editQtyInput'); state.editState.quantity = Math.max(0,(parseInt(input.value)||0)+delta); input.value = state.editState.quantity; }
+function onEditQtyInput() { state.editState.quantity = Math.max(0, parseInt(document.getElementById('editQtyInput').value)||0); }
+function selectEditReason(btn, reason) { document.querySelectorAll('#editReasonList .reason-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); state.editState.reason = reason; }
 
 async function saveEdit() {
   const e = state.editState;
-  if (!e.store || !e.product || !e.reason) {
-    alert('กรุณากรอกข้อมูลให้ครบ'); return;
-  }
-  const btn = document.getElementById('editSaveBtn');
-  btn.disabled = true; btn.textContent = '⏳ กำลังบันทึก...';
+  if (!e.store || !e.product) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
+  if (e.reportType === 'stockout' && !e.reason) { alert('กรุณาเลือกเหตุผล'); return; }
+  const btn = document.getElementById('editSaveBtn'); btn.disabled = true; btn.textContent = '⏳ กำลังบันทึก...';
   try {
-    const data = await fetch(GAS_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'updateReport',
-        row_index:    e.rowIndex,
-        line_user_id: state.lineUserId,
-        store_id:     e.store.store_id,
-        store_name:   e.store.store_name,
-        barcode:      e.product.barcode,
-        product_th:   e.product.product_th,
-        reason:       e.reason,
-      })
-    }).then(r => r.json());
-
-    if (data.success) {
-      closeEditModal();
-      await loadMyReports();
-    } else {
-      alert(data.message || 'บันทึกไม่สำเร็จ');
-      btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
-    }
-  } catch(e) {
-    alert('เกิดข้อผิดพลาด');
-    btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
-  }
+    const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({
+      action:'updateReport', row_index:e.rowIndex, line_user_id:state.lineUserId,
+      report_type:e.reportType, store_id:e.store.store_id, store_name:e.store.store_name,
+      barcode:e.product.barcode, product_th:e.product.product_th,
+      quantity:e.reportType==='stock' ? e.quantity : '', reason:e.reportType==='stockout' ? e.reason : '',
+    })}).then(r => r.json());
+    if (data.success) { closeEditModal(); await loadMyReports(); }
+    else { alert(data.message || 'บันทึกไม่สำเร็จ'); btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข'; }
+  } catch(e) { alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข'; }
 }
-
 function closeEditModal() {
   document.getElementById('editModal').classList.remove('open');
-  document.getElementById('editSearchResults').innerHTML = '';
-  document.getElementById('editSearchInput').value = '';
-  const btn = document.getElementById('editSaveBtn');
-  btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
+  document.getElementById('editSearchResults').innerHTML = ''; document.getElementById('editSearchInput').value = '';
+  const btn = document.getElementById('editSaveBtn'); btn.disabled = false; btn.textContent = '💾 บันทึกการแก้ไข';
 }
 
 // ── NAVIGATE ───────────────────────────────────────────────
 function showForm() {
   document.getElementById('successScreen').style.display = 'none';
-  showScreen('formScreen');
-  document.getElementById('headerTitle').textContent = 'แจ้งสินค้าขาด';
-  setNavActive('navForm');
+  showScreen('formScreen'); document.getElementById('headerTitle').textContent = 'รายงานสินค้า'; setNavActive('navForm');
 }
 
 // ── HELPERS ────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.center-screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById(id);
-  if (el) el.classList.add('active');
+  document.getElementById(id)?.classList.add('active');
   document.getElementById('successScreen').style.display = 'none';
 }
 function showError(msg) {
-  document.getElementById('loadingScreen').innerHTML = `
-    <div style="text-align:center;padding:32px">
-      <div style="font-size:48px;margin-bottom:12px">⚠️</div>
-      <p style="font-size:15px;font-weight:700;margin-bottom:8px">เกิดข้อผิดพลาด</p>
-      <p style="font-size:13px;color:#888">${msg}</p>
-      <button onclick="location.reload()" style="margin-top:20px;padding:10px 24px;background:#06C755;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer">ลองใหม่</button>
-    </div>`;
-  document.getElementById('loadingScreen').classList.add('active');
+  document.getElementById('loadingScreen').innerHTML = `<div style="text-align:center;padding:32px">
+    <div style="font-size:48px;margin-bottom:12px">⚠️</div>
+    <p style="font-size:15px;font-weight:700;margin-bottom:8px">เกิดข้อผิดพลาด</p>
+    <p style="font-size:13px;color:#888">${msg}</p>
+    <button onclick="location.reload()" style="margin-top:20px;padding:10px 24px;background:#06C755;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer">ลองใหม่</button>
+  </div>`; document.getElementById('loadingScreen').classList.add('active');
 }
-function setNavActive(id) {
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id)?.classList.add('active');
-}
-function escHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function setNavActive(id) { document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); document.getElementById(id)?.classList.add('active'); }
+function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 init();
 </script>
