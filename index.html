@@ -530,6 +530,27 @@ body {
 .filter-tab.active-stock  { border-color: var(--b0); background: var(--b-dim); color: var(--b0); }
 .filter-tab.active-stockout { border-color: var(--r0); background: var(--r-dim); color: var(--r0); }
 
+.sub-filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 14px; }
+.sub-filter-wrap { position: relative; }
+.sub-filter-wrap::after {
+  content: ''; position: absolute; right: 9px; top: 50%;
+  width: 6px; height: 6px;
+  border-right: 1.5px solid var(--ink-4); border-bottom: 1.5px solid var(--ink-4);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.sub-filter-select {
+  width: 100%; padding: 7px 22px 7px 9px;
+  border: 1.5px solid var(--border-2); border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 600; color: var(--ink-3);
+  background: var(--surface); outline: none;
+  font-family: var(--font); appearance: none; cursor: pointer;
+  transition: border-color 0.15s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sub-filter-select:focus { border-color: var(--g0); }
+.sub-filter-select.active { border-color: var(--amber); background: var(--amber-dim); color: #92400E; }
+
 .report-item {
   background: var(--surface); border-radius: var(--radius);
   padding: 14px; margin-bottom: 8px;
@@ -782,6 +803,23 @@ body {
     <button class="filter-tab"            id="ftStock"    onclick="setFilter('stock')">📊 สต็อก</button>
     <button class="filter-tab"            id="ftStockout" onclick="setFilter('stockout')">🚫 หมด</button>
   </div>
+  <div class="sub-filter-row">
+    <div class="sub-filter-wrap">
+      <select class="sub-filter-select" id="sfBU" onchange="applySubFilters()">
+        <option value="">BU ทั้งหมด</option>
+      </select>
+    </div>
+    <div class="sub-filter-wrap">
+      <select class="sub-filter-select" id="sfCategory" onchange="applySubFilters()">
+        <option value="">Category ทั้งหมด</option>
+      </select>
+    </div>
+    <div class="sub-filter-wrap">
+      <select class="sub-filter-select" id="sfBrand" onchange="applySubFilters()">
+        <option value="">Brand ทั้งหมด</option>
+      </select>
+    </div>
+  </div>
   <div id="myReportList"></div>
 </div>
 
@@ -867,6 +905,7 @@ let state = {
   selectedProduct: null, selectedReason: null,
   quantity: 0,
   reportDateOffset: 0, reportFilter: 'all', allReports: [],
+  sfBU: '', sfCategory: '', sfBrand: '',
   editState: {},
 };
 
@@ -1139,11 +1178,38 @@ async function loadMyReports() {
     renderMyReports();
   } catch(e) { document.getElementById('myReportList').innerHTML = '<div class="empty-state">เกิดข้อผิดพลาด</div>'; }
 }
+function populateSubFilters() {
+  const unique = (key) => [...new Set(state.allReports.map(r => r[key]).filter(Boolean))].sort();
+  const fill = (id, values, label) => {
+    const sel = document.getElementById(id);
+    const cur = sel.value;
+    sel.innerHTML = `<option value="">${label} ทั้งหมด</option>` +
+      values.map(v => `<option value="${escHtml(v)}"${v===cur?' selected':''}>${escHtml(v)}</option>`).join('');
+    sel.classList.toggle('active', !!sel.value);
+  };
+  fill('sfBU',       unique('BU'),       'BU');
+  fill('sfCategory', unique('Category'), 'Category');
+  fill('sfBrand',    unique('Brand'),    'Brand');
+}
+function applySubFilters() {
+  state.sfBU       = document.getElementById('sfBU').value;
+  state.sfCategory = document.getElementById('sfCategory').value;
+  state.sfBrand    = document.getElementById('sfBrand').value;
+  document.getElementById('sfBU').classList.toggle('active',       !!state.sfBU);
+  document.getElementById('sfCategory').classList.toggle('active', !!state.sfCategory);
+  document.getElementById('sfBrand').classList.toggle('active',    !!state.sfBrand);
+  renderMyReports();
+}
 function renderMyReports() {
   const isToday = state.reportDateOffset === 0;
-  const reports = state.allReports.filter(r =>
-    state.reportFilter === 'all' || r.report_type === state.reportFilter
-  );
+  populateSubFilters();
+  const reports = state.allReports.filter(r => {
+    if (state.reportFilter !== 'all' && r.report_type !== state.reportFilter) return false;
+    if (state.sfBU       && r.BU       !== state.sfBU)       return false;
+    if (state.sfCategory && r.Category !== state.sfCategory) return false;
+    if (state.sfBrand    && r.Brand    !== state.sfBrand)    return false;
+    return true;
+  });
   document.getElementById('myStatTotal').textContent  = state.allReports.length || '0';
   document.getElementById('myStatStores').textContent = new Set(state.allReports.map(r => r.store_id)).size || '0';
   if (!reports.length) {
@@ -1162,6 +1228,8 @@ function renderMyReports() {
         <span>📟 ${r.barcode}</span>
         <span>🕐 ${r.timestamp}</span>
         ${isStock ? `<span class="qty-badge">📦 ${r.quantity} ชิ้น</span>` : `<span class="reason-tag">${escHtml(r.reason)}</span>`}
+        ${r.BU    ? `<span class="reason-tag">${escHtml(r.BU)}</span>` : ''}
+        ${r.Brand ? `<span class="reason-tag">${escHtml(r.Brand)}</span>` : ''}
       </div>
       ${isToday ? `<div class="ri-actions">
         <button class="btn-edit" onclick='openEditModal(${JSON.stringify(r)})'>✏️ แก้ไข</button>
@@ -1179,6 +1247,7 @@ function setFilter(f) {
 }
 async function changeReportDate(d) {
   state.reportDateOffset = Math.min(0, state.reportDateOffset + d);
+  state.sfBU = ''; state.sfCategory = ''; state.sfBrand = '';
   await loadMyReports();
 }
 
