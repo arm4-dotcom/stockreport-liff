@@ -214,6 +214,18 @@ body {
 }
 .rtype-card.selected-stockout .rtype-icon-wrap { background: rgba(255,59,59,0.12); }
 .rtype-card.selected-stockout .rtype-title { color: var(--r0); }
+.rtype-card.selected-bestseller {
+  border-color: var(--amber);
+  background: var(--amber-dim);
+}
+.rtype-card.selected-bestseller .rtype-icon-wrap { background: rgba(245,158,11,0.15); }
+.rtype-card.selected-bestseller .rtype-title { color: #92400E; }
+.rtype-card.selected-slowmove {
+  border-color: #8B5CF6;
+  background: rgba(139,92,246,0.08);
+}
+.rtype-card.selected-slowmove .rtype-icon-wrap { background: rgba(139,92,246,0.12); }
+.rtype-card.selected-slowmove .rtype-title { color: #5B21B6; }
 
 /* ─── CUSTOMER TABS ─── */
 .customer-tabs {
@@ -526,9 +538,11 @@ body {
   transition: all 0.15s; font-family: var(--font);
   letter-spacing: 0.01em;
 }
-.filter-tab.active-all    { border-color: var(--ink-2); background: var(--ink-2); color: white; }
-.filter-tab.active-stock  { border-color: var(--b0); background: var(--b-dim); color: var(--b0); }
-.filter-tab.active-stockout { border-color: var(--r0); background: var(--r-dim); color: var(--r0); }
+.filter-tab.active-all        { border-color: var(--ink-2); background: var(--ink-2); color: white; }
+.filter-tab.active-stock      { border-color: var(--b0); background: var(--b-dim); color: var(--b0); }
+.filter-tab.active-stockout   { border-color: var(--r0); background: var(--r-dim); color: var(--r0); }
+.filter-tab.active-bestseller { border-color: var(--amber); background: var(--amber-dim); color: #92400E; }
+.filter-tab.active-slowmove   { border-color: #8B5CF6; background: rgba(139,92,246,0.08); color: #5B21B6; }
 
 .sub-filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
 .sub-filter-wrap { position: relative; }
@@ -558,8 +572,10 @@ body {
   border-left: 3px solid var(--border-2);
   animation: fadeUp 0.15s ease;
 }
-.report-item.type-stock    { border-left-color: var(--b0); }
-.report-item.type-stockout { border-left-color: var(--r0); }
+.report-item.type-stock      { border-left-color: var(--b0); }
+.report-item.type-stockout   { border-left-color: var(--r0); }
+.report-item.type-bestseller { border-left-color: var(--amber); }
+.report-item.type-slowmove   { border-left-color: #8B5CF6; }
 .ri-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 .ri-name { font-size: 13px; font-weight: 600; line-height: 1.3; flex: 1; }
 .type-badge {
@@ -569,6 +585,8 @@ body {
 }
 .badge-stock    { background: var(--b-dim); color: var(--b0); border: 1px solid rgba(0,102,255,0.15); }
 .badge-stockout { background: var(--r-dim); color: var(--r0); border: 1px solid rgba(255,59,59,0.15); }
+.badge-bestseller { background: var(--amber-dim); color: #92400E; border: 1px solid rgba(245,158,11,0.2); }
+.badge-slowmove   { background: rgba(139,92,246,0.08); color: #5B21B6; border: 1px solid rgba(139,92,246,0.2); }
 .reason-tag {
   font-size: 9px; font-weight: 700; padding: 2px 7px;
   border-radius: 99px; background: var(--bg); color: var(--ink-3);
@@ -720,6 +738,16 @@ body {
       <p class="rtype-title">แจ้งสินค้าหมด</p>
       <p class="rtype-sub">สินค้าขาด / หมด<br>จากชั้นวาง</p>
     </div>
+    <div class="rtype-card" id="rtypeBestseller" onclick="selectReportType('bestseller')">
+      <div class="rtype-icon-wrap">🔥</div>
+      <p class="rtype-title">สินค้าขายดี</p>
+      <p class="rtype-sub">สินค้าที่มียอดขาย<br>สูงกว่าปกติ</p>
+    </div>
+    <div class="rtype-card" id="rtypeSlowmove" onclick="selectReportType('slowmove')">
+      <div class="rtype-icon-wrap">📉</div>
+      <p class="rtype-title">สินค้าขายยาก</p>
+      <p class="rtype-sub">สินค้าที่ขายไม่ออก<br>หรือขายได้ช้า</p>
+    </div>
   </div>
 
   <div id="storeSection" style="display:none">
@@ -756,7 +784,7 @@ body {
   </div>
 
   <div id="reasonSection" style="display:none">
-    <div class="section-label"><span class="lbl-icon">⚠️</span> เหตุผลที่สินค้าขาด <span class="required">*</span></div>
+    <div class="section-label"><span class="lbl-icon">⚠️</span> <span id="reasonSectionLabel">เหตุผล</span> <span class="required">*</span></div>
     <div class="reason-list" id="reasonList"></div>
   </div>
 
@@ -798,10 +826,12 @@ body {
       <p class="s-sub">สาขา</p>
     </div>
   </div>
-  <div class="filter-tabs">
-    <button class="filter-tab active-all" id="ftAll"      onclick="setFilter('all')">ทั้งหมด</button>
-    <button class="filter-tab"            id="ftStock"    onclick="setFilter('stock')">📊 สต็อก</button>
-    <button class="filter-tab"            id="ftStockout" onclick="setFilter('stockout')">🚫 หมด</button>
+  <div class="filter-tabs" style="overflow-x:auto;scrollbar-width:none;">
+    <button class="filter-tab active-all" id="ftAll"        onclick="setFilter('all')" style="flex-shrink:0">ทั้งหมด</button>
+    <button class="filter-tab"            id="ftStock"      onclick="setFilter('stock')" style="flex-shrink:0">📊 สต็อก</button>
+    <button class="filter-tab"            id="ftStockout"   onclick="setFilter('stockout')" style="flex-shrink:0">🚫 หมด</button>
+    <button class="filter-tab"            id="ftBestseller" onclick="setFilter('bestseller')" style="flex-shrink:0">🔥 ขายดี</button>
+    <button class="filter-tab"            id="ftSlowmove"   onclick="setFilter('slowmove')" style="flex-shrink:0">📉 ขายยาก</button>
   </div>
   <div class="sub-filter-row">
     <div class="sub-filter-wrap">
@@ -974,24 +1004,42 @@ function loadForm(data) {
   } else { fallback.textContent = state.displayName?.charAt(0) || '?'; }
   document.getElementById('userRole').textContent = `${data.sup_name} · ${data.stores.length} สาขา`;
   renderCustomerTabs('customerTabs', false);
-  renderReasonList('reasonList', false);
+  // reasons rendered per-type when selectReportType is called
   showScreen('formScreen');
   document.getElementById('bottomNav').style.display = 'flex';
   document.getElementById('headerTitle').textContent = 'รายงานสินค้า';
 }
 
+const RTYPE_CONFIG = {
+  stock:      { label: 'แจ้งจำนวนสต็อก',  color: 'selected-stock',      reasonLabel: '' },
+  stockout:   { label: 'แจ้งสินค้าหมด',   color: 'selected-stockout',   reasonLabel: 'เหตุผลที่สินค้าขาด' },
+  bestseller: { label: 'สินค้าขายดี',      color: 'selected-bestseller', reasonLabel: 'เหตุผลที่ขายดี' },
+  slowmove:   { label: 'สินค้าขายยาก',    color: 'selected-slowmove',   reasonLabel: 'เหตุผลที่ขายยาก' },
+};
+
 function selectReportType(type) {
   state.reportType = type;
-  document.getElementById('rtypeStock').className    = 'rtype-card' + (type==='stock'    ? ' selected-stock' : '');
-  document.getElementById('rtypeStockout').className = 'rtype-card' + (type==='stockout' ? ' selected-stockout' : '');
+  // reset card styles
+  ['rtypeStock','rtypeStockout','rtypeBestseller','rtypeSlowmove'].forEach(id => {
+    document.getElementById(id).className = 'rtype-card';
+  });
+  const cfg = RTYPE_CONFIG[type];
+  const cardId = { stock:'rtypeStock', stockout:'rtypeStockout', bestseller:'rtypeBestseller', slowmove:'rtypeSlowmove' }[type];
+  document.getElementById(cardId).className = `rtype-card ${cfg.color}`;
+
   document.getElementById('storeSection').style.display = 'block';
-  document.getElementById('quantitySection').style.display = type === 'stock'    ? 'block' : 'none';
-  document.getElementById('reasonSection').style.display   = type === 'stockout' ? 'block' : 'none';
+  document.getElementById('quantitySection').style.display = type === 'stock' ? 'block' : 'none';
+  const needReason = type !== 'stock';
+  document.getElementById('reasonSection').style.display = needReason ? 'block' : 'none';
+  if (needReason) {
+    document.getElementById('reasonSectionLabel').textContent = cfg.reasonLabel;
+    renderReasonList('reasonList', false, type);
+  }
+
   state.selectedCustomer = null; state.selectedStore = null;
   state.selectedReason = null; state.quantity = 0;
   document.getElementById('qtyInput').value = '0';
   document.querySelectorAll('#storeGrid .store-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
   document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
   document.getElementById('storeGrid2wrap').style.display = 'none';
   updateProgress(); checkSubmit();
@@ -1068,10 +1116,13 @@ function changeQty(delta) {
 }
 function onQtyInput() { state.quantity = Math.max(0, parseInt(document.getElementById('qtyInput').value) || 0); checkSubmit(); }
 
-function renderReasonList(containerId, isEdit) {
+function renderReasonList(containerId, isEdit, reportType) {
   const fn = isEdit ? 'selectEditReason' : 'selectReason';
-  document.getElementById(containerId).innerHTML = state.reasons.length
-    ? state.reasons.map(r => `<button class="reason-btn" onclick='${fn}(this,"${escHtml(r.reason)}")'>
+  const filtered = reportType
+    ? state.reasons.filter(r => r.report_type === reportType)
+    : state.reasons;
+  document.getElementById(containerId).innerHTML = filtered.length
+    ? filtered.map(r => `<button class="reason-btn" onclick='${fn}(this,"${escHtml(r.reason)}")'>
         <span class="r-icon">${r.icon}</span>
         <div style="flex:1"><p class="r-title">${escHtml(r.reason)}</p><p class="r-sub">${escHtml(r.description)}</p></div>
         <span class="r-check">✓</span></button>`).join('')
@@ -1093,8 +1144,9 @@ function updateProgress() {
 }
 function checkSubmit() {
   const s = state;
+  const needReason = s.reportType && s.reportType !== 'stock';
   const ok = s.reportType && s.selectedStore && s.selectedProduct &&
-    (s.reportType === 'stock' ? true : !!s.selectedReason);
+    (needReason ? !!s.selectedReason : true);
   document.getElementById('submitBtn').disabled = !ok;
 }
 
@@ -1108,7 +1160,7 @@ async function submitReport() {
       barcode: state.selectedProduct.barcode, product_th: state.selectedProduct.product_th,
       report_type: state.reportType,
       quantity: state.reportType === 'stock' ? state.quantity : '',
-      reason:   state.reportType === 'stockout' ? state.selectedReason : '',
+      reason:   state.reportType !== 'stock' ? state.selectedReason : '',
     };
     const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) }).then(r => r.json());
     if (data.success) showSuccess(payload);
@@ -1117,13 +1169,23 @@ async function submitReport() {
 }
 
 function showSuccess(data) {
-  const isStock = data.report_type === 'stock';
-  document.getElementById('successSub').textContent = isStock
-    ? 'บันทึกข้อมูลสต็อกสินค้าแล้ว ✅' : 'บันทึกรายการสินค้าหมดแล้ว ✅';
+  const typeLabel = {
+    stock: '📊 แจ้งจำนวนสต็อก',
+    stockout: '🚫 แจ้งสินค้าหมด',
+    bestseller: '🔥 สินค้าขายดี',
+    slowmove: '📉 สินค้าขายยาก',
+  }[data.report_type] || data.report_type;
+  const subText = {
+    stock: 'บันทึกข้อมูลสต็อกสินค้าแล้ว ✅',
+    stockout: 'บันทึกรายการสินค้าหมดแล้ว ✅',
+    bestseller: 'บันทึกรายการสินค้าขายดีแล้ว ✅',
+    slowmove: 'บันทึกรายการสินค้าขายยากแล้ว ✅',
+  }[data.report_type] || 'บันทึกสำเร็จ ✅';
+  document.getElementById('successSub').textContent = subText;
   const rows = [
-    ['ประเภท', isStock ? '📊 แจ้งจำนวนสต็อก' : '🚫 แจ้งสินค้าหมด'],
+    ['ประเภท', typeLabel],
     ['สาขา', data.store_name], ['สินค้า', data.product_th], ['Barcode', data.barcode],
-    ...(isStock ? [['จำนวน', `${data.quantity} ชิ้น`]] : [['เหตุผล', data.reason]]),
+    ...(data.report_type === 'stock' ? [['จำนวน', `${data.quantity} ชิ้น`]] : [['เหตุผล', data.reason]]),
   ];
   document.getElementById('successDetail').innerHTML = rows.map(([k,v]) =>
     `<div class="detail-row"><span class="detail-key">${k}</span><span class="detail-val">${escHtml(String(v))}</span></div>`
@@ -1137,8 +1199,9 @@ function showSuccess(data) {
 function resetForm() {
   state.reportType = null; state.selectedCustomer = null; state.selectedStore = null;
   state.selectedProduct = null; state.selectedReason = null; state.quantity = 0;
-  document.getElementById('rtypeStock').className = 'rtype-card';
-  document.getElementById('rtypeStockout').className = 'rtype-card';
+  ['rtypeStock','rtypeStockout','rtypeBestseller','rtypeSlowmove'].forEach(id => {
+    document.getElementById(id).className = 'rtype-card';
+  });
   document.getElementById('storeSection').style.display = 'none';
   document.getElementById('storeGrid2wrap').style.display = 'none';
   document.getElementById('quantitySection').style.display = 'none';
@@ -1209,10 +1272,12 @@ function renderMyReports() {
   }
   document.getElementById('myReportList').innerHTML = reports.map(r => {
     const isStock = r.report_type === 'stock';
+    const typeLabel = { stock:'📊 สต็อก', stockout:'🚫 หมด', bestseller:'🔥 ขายดี', slowmove:'📉 ขายยาก' }[r.report_type] || r.report_type;
+    const badgeClass = { stock:'badge-stock', stockout:'badge-stockout', bestseller:'badge-bestseller', slowmove:'badge-slowmove' }[r.report_type] || '';
     return `<div class="report-item type-${r.report_type}" id="ri-${r.row_index}">
       <div class="ri-top">
         <p class="ri-name">${escHtml(r.product_th)}</p>
-        <span class="type-badge badge-${r.report_type}">${isStock ? '📊 สต็อก' : '🚫 หมด'}</span>
+        <span class="type-badge ${badgeClass}">${typeLabel}</span>
       </div>
       <div class="ri-meta">
         <span>🏪 ${escHtml(r.store_name)}</span>
@@ -1231,9 +1296,10 @@ function renderMyReports() {
 }
 function setFilter(f) {
   state.reportFilter = f;
-  document.getElementById('ftAll').className      = 'filter-tab' + (f==='all'      ? ' active-all' : '');
-  document.getElementById('ftStock').className    = 'filter-tab' + (f==='stock'    ? ' active-stock' : '');
-  document.getElementById('ftStockout').className = 'filter-tab' + (f==='stockout' ? ' active-stockout' : '');
+  const tabs = { all:'ftAll', stock:'ftStock', stockout:'ftStockout', bestseller:'ftBestseller', slowmove:'ftSlowmove' };
+  Object.entries(tabs).forEach(([type, id]) => {
+    document.getElementById(id).className = 'filter-tab' + (f === type ? ` active-${type}` : '');
+  });
   renderMyReports();
 }
 async function changeReportDate(d) {
@@ -1281,10 +1347,15 @@ function openEditModal(report) {
 }
 function selectEditReportType(type) {
   state.editState.reportType = type;
+  ['editRtypeStock','editRtypeStockout'].forEach(id => document.getElementById(id).className = 'rtype-card');
+  const cfg = RTYPE_CONFIG[type];
+  const cardId = { stock:'editRtypeStock', stockout:'editRtypeStockout', bestseller:'editRtypeStock', slowmove:'editRtypeStock' }[type];
+  // use actual IDs in edit modal
   document.getElementById('editRtypeStock').className    = 'rtype-card' + (type==='stock'    ? ' selected-stock' : '');
-  document.getElementById('editRtypeStockout').className = 'rtype-card' + (type==='stockout' ? ' selected-stockout' : '');
-  document.getElementById('editQtySection').style.display    = type === 'stock'    ? 'block' : 'none';
-  document.getElementById('editReasonSection').style.display = type === 'stockout' ? 'block' : 'none';
+  document.getElementById('editRtypeStockout').className = 'rtype-card' + (type==='stockout' ? ' selected-stockout' : (type==='bestseller' ? ' selected-bestseller' : (type==='slowmove' ? ' selected-slowmove' : '')));
+  document.getElementById('editQtySection').style.display    = type === 'stock' ? 'block' : 'none';
+  document.getElementById('editReasonSection').style.display = type !== 'stock' ? 'block' : 'none';
+  if (type !== 'stock') renderReasonList('editReasonList', true, type);
 }
 function selectEditCustomer(btn, customer) {
   document.querySelectorAll('#editCustomerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
@@ -1330,14 +1401,14 @@ function selectEditReason(btn, reason) { document.querySelectorAll('#editReasonL
 async function saveEdit() {
   const e = state.editState;
   if (!e.store || !e.product) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
-  if (e.reportType === 'stockout' && !e.reason) { alert('กรุณาเลือกเหตุผล'); return; }
+  if (e.reportType !== 'stock' && !e.reason) { alert('กรุณาเลือกเหตุผล'); return; }
   const btn = document.getElementById('editSaveBtn'); btn.disabled = true; btn.innerHTML = '<span class="btn-icon">⏳</span> กำลังบันทึก...';
   try {
     const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({
       action:'updateReport', row_index:e.rowIndex, line_user_id:state.lineUserId,
       report_type:e.reportType, store_id:e.store.store_id, store_name:e.store.store_name,
       barcode:e.product.barcode, product_th:e.product.product_th,
-      quantity:e.reportType==='stock' ? e.quantity : '', reason:e.reportType==='stockout' ? e.reason : '',
+      quantity:e.reportType==='stock' ? e.quantity : '', reason:e.reportType!=='stock' ? e.reason : '',
     })}).then(r => r.json());
     if (data.success) { closeEditModal(); await loadMyReports(); }
     else { alert(data.message || 'บันทึกไม่สำเร็จ'); btn.disabled = false; btn.innerHTML = '<span class="btn-icon">💾</span> บันทึกการแก้ไข'; }
