@@ -663,6 +663,97 @@ body {
 
 /* ─── DIVIDER ─── */
 .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+/* ─── CART ─── */
+.btn-add-cart {
+  width: 100%; padding: 14px;
+  background: var(--surface);
+  color: var(--g1);
+  border: 1.5px dashed var(--g0);
+  border-radius: var(--radius);
+  font-size: 14px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font);
+  transition: all 0.18s;
+}
+.btn-add-cart:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-add-cart:not(:disabled):active { transform: scale(0.98); background: var(--g-dim); }
+.btn-add-cart .btn-icon { font-size: 16px; }
+
+.cart-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4px 10px;
+}
+.cart-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+.cart-count {
+  background: var(--g0); color: white;
+  font-size: 11px; font-weight: 700;
+  min-width: 22px; height: 22px; padding: 0 8px;
+  border-radius: 99px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--mono);
+}
+
+.cart-item {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-2);
+  display: flex; align-items: center; gap: 10px;
+  animation: fadeUp 0.15s ease;
+}
+.cart-item.type-stock      { border-left-color: var(--b0); }
+.cart-item.type-stockout   { border-left-color: var(--r0); }
+.cart-item.type-bestseller { border-left-color: var(--amber); }
+.cart-item.type-slowmove   { border-left-color: #8B5CF6; }
+.cart-item .ci-body { flex: 1; min-width: 0; }
+.cart-item .ci-name {
+  font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cart-item .ci-meta {
+  font-size: 11px; color: var(--ink-4); margin-top: 3px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.cart-item .ci-meta .ci-barcode { font-family: var(--mono); }
+.cart-item .ci-tag {
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 99px;
+}
+.cart-item .ci-tag.stock      { background: var(--b-dim); color: var(--b0); }
+.cart-item .ci-tag.stockout   { background: var(--r-dim); color: var(--r0); }
+.cart-item .ci-tag.bestseller { background: var(--amber-dim); color: #92400E; }
+.cart-item .ci-tag.slowmove   { background: rgba(139,92,246,0.08); color: #5B21B6; }
+.cart-item .ci-del {
+  width: 32px; height: 32px; flex-shrink: 0;
+  background: var(--r-dim); color: var(--r0);
+  border: 1px solid rgba(255,59,59,0.2);
+  border-radius: var(--radius-xs);
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font);
+}
+
+.locked-store {
+  background: var(--g-dim);
+  border: 1.5px solid rgba(0,200,81,0.25);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.locked-store .ls-icon { font-size: 18px; }
+.locked-store .ls-name { font-size: 13px; font-weight: 600; color: var(--g1); flex: 1; }
+.locked-store .ls-change {
+  font-size: 11px; font-weight: 700; color: var(--g1);
+  background: white; border: 1px solid rgba(0,200,81,0.3);
+  padding: 4px 10px; border-radius: 99px;
+  cursor: pointer; font-family: var(--font);
+}
 </style>
 </head>
 <body>
@@ -788,9 +879,21 @@ body {
     <div class="reason-list" id="reasonList"></div>
   </div>
 
-  <button class="btn-primary" id="submitBtn" disabled onclick="submitReport()">
-    <span class="btn-icon">💾</span> บันทึกรายการ
+  <button class="btn-add-cart" id="addCartBtn" disabled onclick="addToCart()">
+    <span class="btn-icon">➕</span> เพิ่มเข้ารายการ
   </button>
+
+  <div id="cartSection" style="display:none;margin-top:20px">
+    <div class="cart-header">
+      <span class="cart-title">📋 รายการที่จะบันทึก</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </div>
+    <div id="cartList"></div>
+    <button class="btn-primary" id="submitBtn" onclick="submitAll()" style="margin-top:12px">
+      <span class="btn-icon">💾</span> <span id="submitBtnText">บันทึกทั้งหมด</span>
+    </button>
+    <button class="btn-secondary" onclick="clearCart()">🗑️ ล้างรายการทั้งหมด</button>
+  </div>
 </div>
 
 <!-- SUCCESS -->
@@ -929,6 +1032,7 @@ let state = {
   selectedCustomer: null, selectedStore: null,
   selectedProduct: null, selectedReason: null,
   quantity: 0,
+  cart: [], storeLocked: false,
   reportDateOffset: 0, reportFilter: 'all', allReports: [],
   sfCategory: '', sfBrand: '',
   editState: {},
@@ -1036,13 +1140,23 @@ function selectReportType(type) {
     renderReasonList('reasonList', false, type);
   }
 
-  state.selectedCustomer = null; state.selectedStore = null;
-  state.selectedReason = null; state.quantity = 0;
+  // clear only product/reason/qty inputs - keep store and cart
+  state.selectedProduct = null; state.selectedReason = null; state.quantity = 0;
   document.getElementById('qtyInput').value = '0';
-  document.querySelectorAll('#storeGrid .store-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
-  document.getElementById('storeGrid2wrap').style.display = 'none';
-  updateProgress(); checkSubmit();
+  document.getElementById('selectedProductWrap').style.display = 'none';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
+
+  // if store not locked yet, also clear store selections
+  if (!state.storeLocked) {
+    state.selectedCustomer = null; state.selectedStore = null;
+    document.querySelectorAll('#storeGrid .store-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+    const gridWrap = document.getElementById('storeGrid2wrap');
+    if (gridWrap) gridWrap.style.display = 'none';
+  }
+  updateProgress(); checkAdd();
 }
 
 function renderCustomerTabs(containerId, isEdit) {
@@ -1142,31 +1256,155 @@ function updateProgress() {
     el.className = 'progress-dot ' + (steps[i] ? 'done' : steps[i-1] ? 'active' : '');
   });
 }
-function checkSubmit() {
+function checkSubmit() { checkAdd(); }
+function checkAdd() {
   const s = state;
   const needReason = s.reportType && s.reportType !== 'stock';
   const ok = s.reportType && s.selectedStore && s.selectedProduct &&
     (needReason ? !!s.selectedReason : true);
-  document.getElementById('submitBtn').disabled = !ok;
+  document.getElementById('addCartBtn').disabled = !ok;
 }
 
-async function submitReport() {
+function addToCart() {
+  const s = state;
+  // build cart item
+  const item = {
+    id: Date.now() + Math.random(),
+    report_type: s.reportType,
+    store_id: s.selectedStore.store_id,
+    store_name: s.selectedStore.store_name,
+    barcode: s.selectedProduct.barcode,
+    product_th: s.selectedProduct.product_th,
+    quantity: s.reportType === 'stock' ? s.quantity : '',
+    reason:   s.reportType !== 'stock' ? s.selectedReason : '',
+  };
+  s.cart.push(item);
+  s.storeLocked = true;
+
+  // clear product/reason/qty, keep store + type
+  s.selectedProduct = null; s.selectedReason = null; s.quantity = 0;
+  document.getElementById('selectedProductWrap').style.display = 'none';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.getElementById('qtyInput').value = '0';
+  document.querySelectorAll('#reasonList .reason-btn').forEach(b => b.classList.remove('selected'));
+
+  renderCart();
+  renderStoreLocked();
+  checkAdd();
+}
+
+function renderCart() {
+  const list = document.getElementById('cartList');
+  const sec  = document.getElementById('cartSection');
+  const cnt  = document.getElementById('cartCount');
+  const txt  = document.getElementById('submitBtnText');
+  if (!state.cart.length) {
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = 'block';
+  cnt.textContent = state.cart.length;
+  txt.textContent = `บันทึกทั้งหมด (${state.cart.length} รายการ)`;
+  const typeLabel = { stock:'📊 สต็อก', stockout:'🚫 หมด', bestseller:'🔥 ขายดี', slowmove:'📉 ขายยาก' };
+  list.innerHTML = state.cart.map(item => `
+    <div class="cart-item type-${item.report_type}">
+      <div class="ci-body">
+        <p class="ci-name">${escHtml(item.product_th)}</p>
+        <div class="ci-meta">
+          <span class="ci-tag ${item.report_type}">${typeLabel[item.report_type] || item.report_type}</span>
+          <span class="ci-barcode">${item.barcode}</span>
+          ${item.report_type === 'stock' ? `<span>📦 ${item.quantity} ชิ้น</span>` : `<span>${escHtml(item.reason)}</span>`}
+        </div>
+      </div>
+      <button class="ci-del" onclick="removeFromCart(${item.id})">🗑️</button>
+    </div>`).join('');
+}
+
+function removeFromCart(id) {
+  state.cart = state.cart.filter(i => i.id !== id);
+  if (!state.cart.length) {
+    state.storeLocked = false;
+    renderStoreLocked();
+  }
+  renderCart();
+}
+
+function clearCart() {
+  if (!confirm('ล้างรายการทั้งหมด?')) return;
+  state.cart = [];
+  state.storeLocked = false;
+  renderCart();
+  renderStoreLocked();
+}
+
+function renderStoreLocked() {
+  const sec = document.getElementById('storeSection');
+  if (state.storeLocked && state.selectedStore) {
+    sec.innerHTML = `
+      <div class="section-label"><span class="lbl-icon">🏪</span> สาขาที่เลือก</div>
+      <div class="locked-store">
+        <span class="ls-icon">🔒</span>
+        <span class="ls-name">${escHtml(state.selectedStore.store_name)} · ${state.selectedStore.store_id}</span>
+        <button class="ls-change" onclick="unlockStore()">เปลี่ยน</button>
+      </div>`;
+  }
+}
+
+function unlockStore() {
+  if (state.cart.length && !confirm('การเปลี่ยนสาขาจะล้างรายการทั้งหมด ดำเนินการต่อ?')) return;
+  state.cart = [];
+  state.storeLocked = false;
+  state.selectedCustomer = null;
+  state.selectedStore = null;
+  // restore store section
+  document.getElementById('storeSection').innerHTML = `
+    <div class="section-label"><span class="lbl-icon">🏢</span> เลือก Customer <span class="required">*</span></div>
+    <div class="customer-tabs" id="customerTabs"></div>
+    <div id="storeGrid2wrap" style="display:none">
+      <div class="section-label"><span class="lbl-icon">🏪</span> เลือกสาขา <span class="required">*</span></div>
+      <p class="store-count" id="storeCount"></p>
+      <div class="store-grid" id="storeGrid"></div>
+    </div>`;
+  renderCustomerTabs('customerTabs', false);
+  renderCart();
+  checkAdd();
+}
+
+async function submitAll() {
+  if (!state.cart.length) return;
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.innerHTML = '<span class="btn-icon">⏳</span> กำลังบันทึก...';
   try {
-    const payload = {
-      action: 'submitReport', line_user_id: state.lineUserId, sup_name: state.supName,
-      store_id: state.selectedStore.store_id, store_name: state.selectedStore.store_name,
-      barcode: state.selectedProduct.barcode, product_th: state.selectedProduct.product_th,
-      report_type: state.reportType,
-      quantity: state.reportType === 'stock' ? state.quantity : '',
-      reason:   state.reportType !== 'stock' ? state.selectedReason : '',
-    };
-    const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) }).then(r => r.json());
-    if (data.success) showSuccess(payload);
-    else { alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = '<span class="btn-icon">💾</span> บันทึกรายการ'; }
-  } catch(e) { alert('เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = '<span class="btn-icon">💾</span> บันทึกรายการ'; }
+    const items = state.cart.map(i => ({
+      store_id: i.store_id, store_name: i.store_name,
+      barcode: i.barcode, product_th: i.product_th,
+      report_type: i.report_type,
+      quantity: i.quantity, reason: i.reason,
+    }));
+    const data = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({
+      action: 'submitBatch', line_user_id: state.lineUserId, sup_name: state.supName, items,
+    })}).then(r => r.json());
+    if (data.success) showBatchSuccess(data.count || state.cart.length, state.selectedStore.store_name);
+    else { alert(data.message || 'เกิดข้อผิดพลาด'); btn.disabled = false; btn.innerHTML = `<span class="btn-icon">💾</span> บันทึกทั้งหมด (${state.cart.length} รายการ)`; }
+  } catch(e) {
+    alert('เกิดข้อผิดพลาด'); btn.disabled = false;
+    btn.innerHTML = `<span class="btn-icon">💾</span> บันทึกทั้งหมด (${state.cart.length} รายการ)`;
+  }
 }
+
+function showBatchSuccess(count, storeName) {
+  document.getElementById('successSub').textContent = `บันทึก ${count} รายการเรียบร้อยแล้ว ✅`;
+  document.getElementById('successDetail').innerHTML = `
+    <div class="detail-row"><span class="detail-key">สาขา</span><span class="detail-val">${escHtml(storeName)}</span></div>
+    <div class="detail-row"><span class="detail-key">จำนวนรายการ</span><span class="detail-val">${count} รายการ</span></div>`;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const s = document.getElementById('successScreen');
+  s.style.display = 'flex'; s.style.flexDirection = 'column';
+  setNavActive('navForm');
+}
+
+// submitReport is replaced by submitAll (batch)
 
 function showSuccess(data) {
   const typeLabel = {
@@ -1199,20 +1437,33 @@ function showSuccess(data) {
 function resetForm() {
   state.reportType = null; state.selectedCustomer = null; state.selectedStore = null;
   state.selectedProduct = null; state.selectedReason = null; state.quantity = 0;
+  state.cart = []; state.storeLocked = false;
   ['rtypeStock','rtypeStockout','rtypeBestseller','rtypeSlowmove'].forEach(id => {
     document.getElementById(id).className = 'rtype-card';
   });
+  // restore store section HTML
+  document.getElementById('storeSection').innerHTML = `
+    <div class="section-label"><span class="lbl-icon">🏢</span> เลือก Customer <span class="required">*</span></div>
+    <div class="customer-tabs" id="customerTabs"></div>
+    <div id="storeGrid2wrap" style="display:none">
+      <div class="section-label"><span class="lbl-icon">🏪</span> เลือกสาขา <span class="required">*</span></div>
+      <p class="store-count" id="storeCount"></p>
+      <div class="store-grid" id="storeGrid"></div>
+    </div>`;
   document.getElementById('storeSection').style.display = 'none';
-  document.getElementById('storeGrid2wrap').style.display = 'none';
   document.getElementById('quantitySection').style.display = 'none';
   document.getElementById('reasonSection').style.display = 'none';
-  document.querySelectorAll('.store-btn,.reason-btn').forEach(b => b.classList.remove('selected'));
-  document.querySelectorAll('#customerTabs .cust-tab').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('searchInput').value = '';
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('selectedProductWrap').style.display = 'none';
   document.getElementById('qtyInput').value = '0';
-  const btn = document.getElementById('submitBtn'); btn.disabled = true; btn.innerHTML = '<span class="btn-icon">💾</span> บันทึกรายการ';
+  renderCart();
+  const addBtn = document.getElementById('addCartBtn');
+  addBtn.disabled = true;
+  const sBtn = document.getElementById('submitBtn');
+  if (sBtn) sBtn.innerHTML = '<span class="btn-icon">💾</span> <span id="submitBtnText">บันทึกทั้งหมด</span>';
+  renderCustomerTabs('customerTabs', false);
   updateProgress();
   document.getElementById('successScreen').style.display = 'none';
   showScreen('formScreen');
